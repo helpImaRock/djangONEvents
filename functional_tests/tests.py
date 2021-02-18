@@ -1,9 +1,9 @@
-from django.test import LiveServerTestCase
+import unittest
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 
-class MyFunctionalTestClass(LiveServerTestCase):
+class MyFunctionalTestClass(unittest.TestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -11,6 +11,6 @@ class MyFunctionalTestClass(LiveServerTestCase):
     def tearDown(self):
         self.browser.quit()
 
-
     def testPageAccess(self):
-        self.browser.get('http://localhost:8000')
+        self.browser.get('http://127.0.0.1:8000')
+        self.fail('Finish the test!')
