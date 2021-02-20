@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Events</h1>
+  {% if event %}
+    <div id={{event.pk}}>
+      {{event.title}}
+      {{event.description}}
+      {{event.author}}
+    </div>
+  {% else %}
+    <p>Event not found</p>
+  {% endif %}
+{% endblock %}

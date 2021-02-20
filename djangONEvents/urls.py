@@ -16,13 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from events.views import LandingView,RegistrationView,LoginView
-from events.events.views import EventListView
+from events.views import LandingView
+from events.events.views import EventListView,EventDetailView
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
+    
     path('',LandingView.as_view(),name="land"),
-    path('events/',EventListView.as_view(),name="event-list"),
+    path('events/',EventListView.as_view(template_name='event_list.html'),name="event-list"),
+    path('events/<int:pk>',EventDetailView.as_view(template_name='event.html'),name="event-detail"),
+    
     #path('accounts/registration/',RegistrationView.as_view(),name="register"),
     #path('accounts/login/',LoginView.as_view(),name="login"),
 ]
