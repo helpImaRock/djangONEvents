@@ -12,12 +12,6 @@ class LandingView(TemplateView):
         return render(request,LandingView.template_name)
 
 
-## check https://docs.djangoproject.com/en/3.1/ref/class-based-views/generic-display/#listview
-class EventsView(TemplateView):
-    template_name = 'events.html'
-
-    def get(self,request):
-        return render(request,EventsView.template_name)
 
 
 class UserDataView(FormView):

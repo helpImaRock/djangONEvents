@@ -1,7 +1,7 @@
 from django.test import TestCase,Client
 from django.urls import resolve
 from django.http import HttpRequest
-from events.views import LandingView,EventsView,RegistrationView,LoginView
+from events.views import LandingView
 
 # Create your tests here.
 
@@ -21,25 +21,9 @@ class LandingPageTest(TestCase):
         self.assertTemplateUsed(response,'land.html')
 
 
-class EventPageTest(TestCase):
-
-    def test_resolving_view(self):
-        found = resolve('/events/')
-        self.assertEqual(found.view_name,EventsView.template_name[:-5])
 
 
-    def test_render_html_correctly(self):
-        response = self.client.get('/events/')
-
-        html = response.content.decode('utf-8')
-        self.assertTrue(html.startswith('<!DOCTYPE html>'))
-        self.assertIn("<title>ONEvents</title>",html)
-        self.assertTrue(html.endswith('</html>'))
-        self.assertTemplateUsed(response,'events.html')
-
-
-
-class RegistrationTest(TestCase):
+""" class RegistrationTest(TestCase):
     
     def test_resolving_view(self):
         found = resolve('/accounts/registration/')
@@ -75,4 +59,7 @@ class LoginTest(TestCase):
         self.assertIn("<form action",html)
         self.assertIn("</form>",html)
         self.assertTrue(html.endswith('</html>'))
-        self.assertTemplateUsed(response,'login.html')
+        self.assertTemplateUsed(response,'login.html') """
+
+
+
