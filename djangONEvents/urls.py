@@ -17,14 +17,16 @@ from django.contrib import admin
 from django.urls import path
 
 from events.views import LandingView
-from events.events.views import EventListView,EventDetailView
+from events.events.views import EventListView,EventDetailView,EventCreateView
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
     
     path('',LandingView.as_view(),name="land"),
-    path('events/',EventListView.as_view(template_name='event_list.html'),name="event-list"),
-    path('events/<int:pk>',EventDetailView.as_view(template_name='event.html'),name="event-detail"),
+    path('events/',EventListView.as_view(template_name='events/event_list.html'),name="event-list"),
+    path('events/new',EventCreateView.as_view(template_name='events/new.html'),name="event-form"),
+    path('events/<int:pk>',EventDetailView.as_view(template_name='events/event.html'),name="event-detail"),
+    path('admin/',admin.site.urls)
     
     #path('accounts/registration/',RegistrationView.as_view(),name="register"),
     #path('accounts/login/',LoginView.as_view(),name="login"),

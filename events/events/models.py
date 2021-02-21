@@ -1,7 +1,9 @@
 from django.db import models
 from django.forms import ModelForm
+from django import forms
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-import datetime
+
 
 class Event(models.Model):
     
@@ -12,13 +14,14 @@ class Event(models.Model):
     
     title = models.CharField(_("Title"),max_length=30,unique=True,blank=False,default='')
     description = models.TextField(_("Description"),max_length=200,null=False,default='')
-    date = models.DateField(_("Date"),null=False,default=datetime.date.today)
+    date = models.DateField(_("Date"),null=False,default='')
     author = models.CharField(_("Author"),max_length=20,blank=True,default='')
     state = models.CharField(_("State"),max_length=2,
             choices=StateChoices.choices,
             default=StateChoices.DRAFT)
 
     class Meta:
+        db_table = "events"
         ordering = ['date']
 
     def get_absolute_url(self):
@@ -31,4 +34,25 @@ class Event(models.Model):
 class EventForm(ModelForm):
     class Meta:
         model = Event
-        exclude = ['state']
+        exclude = ['state','author']
+
+
+class Subscription(models.Model):
+
+    username = models.CharField(_("Username"),max_length=30)
+    email = models.CharField(_("Email"),max_length=30)
+    comment = models.TextField(_("Comment"),null=False)
+    dateTime = models.DateTimeField(_("DateTime"),auto_now_add=True)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.id +" "+self.email+" "+self.comment
+
+    class Meta:
+        db_table = "subscriptions"
+        ordering = ['dateTime']
+
+class SubscriptionForm(ModelForm):
+    class Meta:
+        model = Subscription
+        exclude = ['event','dateTime']

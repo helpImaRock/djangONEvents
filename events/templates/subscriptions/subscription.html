@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Subscription</h1>
+  {% if subscription %}
+    <div id={{event.pk}}>
+      {{subscription.username}}
+      {{subscription.email}}
+      {{subscription.comment}}
+    </div>
+  {% else %}
+    <p>Subscription not found</p>
+  {% endif %}
+{% endblock %}

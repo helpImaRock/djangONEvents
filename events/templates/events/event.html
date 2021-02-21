@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Events</h1>
+  <h1>Event</h1>
   {% if event %}
     <div id={{event.pk}}>
       {{event.title}}
       {{event.description}}
       {{event.author}}
+      {{event.state}}
     </div>
+    {% include "subscriptions/new.html" %}
   {% else %}
     <p>Event not found</p>
   {% endif %}

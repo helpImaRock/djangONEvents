@@ -12,8 +12,6 @@ class LandingView(TemplateView):
         return render(request,LandingView.template_name)
 
 
-
-
 class UserDataView(FormView):
     formClass = UserForm
     

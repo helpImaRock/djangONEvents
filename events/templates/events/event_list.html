@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Events</h1>
+  {% if event_list %}
+  <ul>
+    {% for event in event_list %}
+    <li>
+      <div>
+        <a href="{{ event.get_absolute_url }}">{{event.title}}</a>
+        {{event.description}}
+        {{event.date}}
+        {{event.author}}
+        {{event.state}}
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no events in the registered.</p>
+  {% endif %}
+  <button onclick="window.location.href='new';">
+    Click Here
+  </button>
+{% endblock %}

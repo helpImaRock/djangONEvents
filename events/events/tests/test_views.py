@@ -1,5 +1,5 @@
 from django.test import TestCase
-from events.events.models import Event
+from events.events.models import Event,EventForm
 from django.urls import resolve
 
 from events.events.views import EventListView,EventDetailView
@@ -27,7 +27,7 @@ class EventListViewTest(TestCase):
 
         html = response.content.decode('utf-8')
         self.assertTrue(len(response.context['event_list'])==10)
-        self.assertTemplateUsed(response,'event_list.html')
+        self.assertTemplateUsed(response,'events/event_list.html')
 
 
     def tearDown(self):
@@ -56,4 +56,30 @@ class EvenDetailViewTest(TestCase):
         self.assertTrue(event.title == self.event.title)
         self.assertTrue(event.author == self.event.author)
         self.assertTrue(event.description == self.event.description)
-        self.assertTemplateUsed(response,'event.html')
+        self.assertTemplateUsed(response,'events/event.html')
+
+
+class EventFormViewTest(TestCase):
+
+    def setUp(self):
+        self.event = {
+                "title": " my super duper title",
+                "description": "this is an event that will be ocurring on ...",
+                "author": "django",
+                }
+
+    def test_resolving_view(self):
+        found = resolve('/events/new')
+        self.assertEqual(found.view_name,"event-form")
+
+    def test_event_form(self):
+
+        response = self.client.get('/events/new')
+        html = response.content.decode('utf-8')
+
+        form = EventForm(data=self.event)
+        form.is_valid()
+
+        
+
+        
