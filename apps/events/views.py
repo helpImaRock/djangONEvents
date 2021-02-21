@@ -1,12 +1,21 @@
+from django.shortcuts import render
 from django.utils import timezone
-from django.views.generic import ListView
+from django.views.generic import ListView,TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 import datetime
 
-from events.events.models import Event,EventForm,Subscription,SubscriptionForm
+from .models import Event,EventForm,Subscription,SubscriptionForm
+
+class LandingView(TemplateView):
+    template_name='land.html'
+    
+    def get(self,request):
+        return render(request,LandingView.template_name)
+
 
 ## check https://docs.djangoproject.com/en/3.1/ref/class-based-views/generic-display/#listview
+
 class EventListView(ListView):
     template_name = 'event_list.html'
     context_object_name = 'event_list'
@@ -58,3 +67,4 @@ class SubscriptionDetailView(DetailView):
 class SubscriptionForm(CreateView):
     template_name = 'new.html'
     form_class = SubscriptionForm
+    success_url = '/events/'

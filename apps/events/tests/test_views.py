@@ -1,8 +1,8 @@
 from django.test import TestCase
-from events.events.models import Event,EventForm
+from apps.events.models import Event,EventForm
 from django.urls import resolve
 
-from events.events.views import EventListView,EventDetailView
+from apps.events.views import EventListView,EventDetailView
 
 
 class EventListViewTest(TestCase):
