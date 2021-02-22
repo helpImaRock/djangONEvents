@@ -4,6 +4,8 @@ from django.contrib.auth.base_user import AbstractBaseUser,BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+import re
 
 # Create your models here.
 
@@ -38,12 +40,12 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser,PermissionsMixin):
 
-    identifier = models.CharField(_('username'),max_length=40, unique=True,blank=False)
+    username = models.CharField(_('username'),max_length=40, unique=True,blank=False)
     email = models.CharField(_('email'),max_length=40,unique=True,default='')
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'identifier'
+    USERNAME_FIELD = 'username'
 
     objects = UserManager()
 
@@ -53,14 +55,38 @@ class User(AbstractBaseUser,PermissionsMixin):
 
 class SignUpForm(forms.ModelForm):
     '''registration form'''
-    password = forms.CharField(widget=forms.PasswordInput())
+
+    password1 = forms.CharField(label='Password',widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Password confirmation',widget=forms.PasswordInput)
 
     class Meta:
         model = get_user_model()
-        exclude = []
+        fields=('username','email')
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2:
+            if password1!=password2:
+                raise ValidationError("Passwords don't match",code='invalid')
+        return password2
+    
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if email:
+            if re.search(r'\b[a-z]+@[a-z]+.[a-z0-9]{2,5}\b',email) is None:
+                raise ValidationError("Invalid email",code='invalid')
+        return email
+
+    def save(self,commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
 
 
-class LoginForm(forms.Form):
+class LoginForm(forms.ModelForm):
     ''' login form '''
-    email = forms.EmailField()
+    username = forms.CharField(label='username', max_length=60)
     password = forms.CharField(widget=forms.PasswordInput())

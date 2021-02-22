@@ -19,8 +19,7 @@
   {% else %}
     <p>There are no events in the registered.</p>
   {% endif %}
-  <button onclick="window.location.href='new';">
-    Click Here
+  <button><a href={% url 'event-form' %}>create event</a>
   </button>
-  <button onclick="window.location.href="{% url 'login' %}">Cancel</button>
+  <button type=“button”><a href={% url 'land' %}>Cancel</a></button>
 {% endblock %}

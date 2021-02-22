@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from apps.events.views import EventListView,EventDetailView,EventCreateView,LandingView
-from apps.accounts.views import SignUpFormView, LoginFormView
+from apps.accounts.views import SignUpFormView, LoginFormView, Logout
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
@@ -25,6 +25,7 @@ urlpatterns = [
     path('',LandingView.as_view(template_name = 'land.html'),name="land"),
     path('accounts/login',LoginFormView.as_view(),name='login'),
     path('accounts/signup',SignUpFormView.as_view(),name='signup'),
+    path('accounts/logout/', Logout, name='logout'),
     path('admin/',admin.site.urls),
     path('events/',EventListView.as_view(template_name='events/event_list.html'),name="event-list"),
     path('events/new',EventCreateView.as_view(template_name='events/new.html'),name="event-form"),

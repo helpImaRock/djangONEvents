@@ -15,11 +15,16 @@
         {{ form.email }}
     </div>
     <div class="fieldWrapper">
-        {{ form.password.errors }}
-        <label for="{{ form.password.id_for_label }}">password:</label>
-        {{ form.password }}
+        {{ form.password1.errors }}
+        <label for="{{ form.password1.id_for_label }}">password:</label>
+        {{ form.password1 }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.password2.errors }}
+        <label for="{{ form.password2.id_for_label }}">password confirmation:</label>
+        {{ form.password2 }}
     </div>
     <button type="submit" value="Submit">Submit</button>
-    <button onclick="window.location.href='../';">Cancel</button>
+    <button><a href={% url 'land' %}>Cancel</a></button>
 </form>
 {% endblock %}

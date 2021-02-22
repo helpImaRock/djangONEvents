@@ -2,7 +2,7 @@
 
 {% block content %}
 <h3>Sign In</h3>
-<form action="accounts/login" method="post">{% csrf_token %}
+<form action="{% url 'login' %}" method="post">{% csrf_token %}
     {{ form.non_field_errors }}
     <div class="fieldWrapper">
         {{ form.username.errors }}
@@ -16,6 +16,6 @@
     </div>
     
     <button type="submit" value="Submit">Submit</button>
-    <button onclick="window.location.href='../';">Cancel</button>
+    <button><a href={% url 'land' %}>Cancel</a></button>
 </form>
 {% endblock %}

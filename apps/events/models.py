@@ -1,7 +1,7 @@
-from django.db import models
-from django.forms import ModelForm
 from django import forms
+from django.db import models
 from django.urls import reverse
+from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 
@@ -15,7 +15,10 @@ class Event(models.Model):
     title = models.CharField(_("Title"),max_length=30,unique=True,blank=False,default='')
     description = models.TextField(_("Description"),max_length=200,null=False,default='')
     date = models.DateField(_("Date"),null=False,default='')
-    author = models.CharField(_("Author"),max_length=20,blank=True,default='')
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
     state = models.CharField(_("State"),max_length=2,
             choices=StateChoices.choices,
             default=StateChoices.DRAFT)
@@ -31,7 +34,7 @@ class Event(models.Model):
         return self.id +" "+self.title + " " +self.date
 
 
-class EventForm(ModelForm):
+class EventForm(forms.ModelForm):
     class Meta:
         model = Event
         exclude = ['state','author']
@@ -52,7 +55,7 @@ class Subscription(models.Model):
         db_table = "subscriptions"
         ordering = ['dateTime']
 
-class SubscriptionForm(ModelForm):
+class SubscriptionForm(forms.ModelForm):
     class Meta:
         model = Subscription
         exclude = ['event','dateTime']
