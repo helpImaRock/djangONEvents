@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="d-flex flex-column">
+    <h3>Sign Up</h3>
+    <form class="py-3" method="POST" action="signup">{% csrf_token %}
+        
+        {{ form.non_field_errors }}
+        <div class="form-group">
+            <div class="fieldWrapper">
+                <label for="{{ form.username.id_for_label }}">username:</label>
+                {{ form.username }}
+            </div>
+        <div>
+        <div class="form-group">
+            <div class="fieldWrapper">
+                <label for="{{ form.username.id_for_label }}">email:</label>
+                {{ form.email }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="fieldWrapper">
+                <label for="{{ form.password1.id_for_label }}">password:</label>
+                {{ form.password1 }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="fieldWrapper">
+                <label for="{{ form.password2.id_for_label }}">confirmation:</label>
+                {{ form.password2 }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
+        <a href={% url 'land' %} class="btn btn-primary">Cancel</a>
+        {% if form.errors %}
+        {{form.errors}}
+        {% endif %}
+    </form>
+</div>
+</div>
+{% endblock %}

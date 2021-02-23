@@ -10,18 +10,18 @@ from django.http import HttpResponseRedirect, HttpResponse
 
 
 class SignUpFormView(FormView):
-    template_name = 'accounts/signup.html'
+    template_name = 'signup.html'
     form_class = SignUpForm
     success_url = '/events/'
 
     def form_valid(self, form):
         """ process user signup"""
+        print(form)
         user = form.save(commit=False)
         user.save()
         login(self.request, user)
         if user is not None:
             return HttpResponseRedirect(self.success_url)
-
         return super().form_valid(form)
     
     def form_invalid(self, form):
@@ -36,7 +36,7 @@ def Logout(request):
     return HttpResponseRedirect(reverse_lazy('accounts:logout'))
 
 class LoginFormView(FormView):
-    template_name = 'accounts/login.html'
+    template_name = 'login.html'
     form_class = LoginForm
     success_url = '/events/'
 
@@ -55,4 +55,4 @@ class LoginFormView(FormView):
         else:
             messages.add_message(self.request,messages.INFO,'Wrong credentials\
                     please try again')
-            return HttpResponseRedirect(reverse_lazy('login'))
+            return HttpResponseRedirect(reverse_lazy('accounts:login'))

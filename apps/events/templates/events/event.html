@@ -3,12 +3,14 @@
 {% block content %}
   <h1>Event</h1>
   {% if event %}
-    <div id={{event.pk}}>
-      {{event.title}}
-      {{event.description}}
+  <div class="card" style="width: 18rem;" id={{event.pk}}>
+    <div class="card-body"
+    <h5 class="title">{{event.title}}</h5>
+    <div class="d-flex justify-content">
       {{event.author}}
       {{event.state}}
     </div>
+  </div>
     {% include "subscriptions/new.html" %}
   {% else %}
     <p>Event not found</p>

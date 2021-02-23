@@ -23,8 +23,8 @@ urlpatterns = [
     #path('admin/', admin.site.urls),
     
     path('',LandingView.as_view(template_name = 'land.html'),name="land"),
-    path('accounts/login',LoginFormView.as_view(),name='login'),
-    path('accounts/signup',SignUpFormView.as_view(),name='signup'),
+    path('accounts/login',LoginFormView.as_view(template_name = 'login.html'),name='login'),
+    path('accounts/signup',SignUpFormView.as_view(template_name = 'signup.html'),name='signup'),
     path('accounts/logout/', Logout, name='logout'),
     path('admin/',admin.site.urls),
     path('events/',EventListView.as_view(template_name='events/event_list.html'),name="event-list"),

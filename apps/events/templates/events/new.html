@@ -1,34 +1,44 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="" method="post">{% csrf_token %}
-    {{ form.non_field_errors }}
-    <div class="fieldWrapper">
-        {{ form.title.errors }}
-        <label for="{{ form.title.id_for_label }}">Title:</label>
-        {{ form.title }}
-    </div>
-    <div class="fieldWrapper">
-        {{ form.description.errors }}
-        <label for="{{ form.description.id_for_label }}">Description:</label>
-        {{ form.description }}
-    </div>
-    <div class="fieldWrapper">
-        {{ form.date.errors }}
-        <label for="{{ form.date.id_for_label }}">Date:</label>
-        <input id="{{ form.date.id_for_label }}" type="date" value="{{form.date}}">
-        
-    </div>
-    <div class="fieldWrapper">
-        {{ form.state.errors }}
-        <label for="{{ form.state.id_for_label }}">State:</label>
-        <select name="cars" id="{{ form.state.id_for_label }}">
-            <option value="Draft">Draft</option>
-            <option value="Public">Public</option>
-            <option value="Private">Private</option>
-        </select>
-    </div>
-    <button type="submit" value="Submit">Submit</button>
-    <button><a href={% url 'event-list' %}>Cancel</a></button>
-</form>
+<div>
+    <h3>Create Event</h3>
+    <form action="" method="post">{% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-group">
+            <div class="fieldWrapper col-4">
+                {{ form.title.errors }}
+                <label for="{{ form.title.id_for_label }}">Title:</label>
+                {{ form.title }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="fieldWrapper col-4">
+                {{ form.description.errors }}
+                <label for="{{ form.description.id_for_label }}">Description:</label>
+                {{ form.description }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="fieldWrapper col-4">
+                {{ form.date.errors }}
+                <label for="{{ form.date.id_for_label }}">Date:</label>
+                <input id="{{ form.date.id_for_label }}" type="date" value="{{form.date}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="fieldWrapper col-4">
+                {{ form.state.errors }}
+                <label for="{{ form.state.id_for_label }}">State:</label>
+                <select name="cars" id="{{ form.state.id_for_label }}">
+                    <option value="Draft">Draft</option>
+                    <option value="Public">Public</option>
+                    <option value="Private">Private</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+        <a href={% url 'event-list' %} class="btn btn-primary">Cancel</a>
+    </form>
+</div>
 {% endblock %}

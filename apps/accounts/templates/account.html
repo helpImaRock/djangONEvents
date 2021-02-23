@@ -1,0 +1,10 @@
+<div class="d-flex">
+  <div class="dropdown mr-2">
+    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+      {{ user.username }} Account
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+      <a class="dropdown-item" href={% url 'logout' %}>Logout</a>
+    </div>
+  </div>
+</div>

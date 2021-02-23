@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.utils import timezone
+from django.http import HttpResponseRedirect
 from django.views.generic import ListView,TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
@@ -39,13 +40,11 @@ class EventCreateView(CreateView):
     template_name = 'new.html'
     success_url = '/events/'
 
-
-    def get_initial(self,*args,**kwargs):
-        initial = super().get_initial(**kwargs)
-        initial['title'] = 'Enter a Title'
-        initial['description'] = 'Enter an event description'
-        return initial
-
+    def form_valid(self,form):
+        self.object = form.save(commit=False)
+        self.object.author= self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url()) 
 
 class SubscriptionListView(ListView):
     template_name = 'subscription_list.html'
@@ -68,3 +67,4 @@ class SubscriptionForm(CreateView):
     template_name = 'new.html'
     form_class = SubscriptionForm
     success_url = '/events/'
+

@@ -31,13 +31,22 @@ class Event(models.Model):
         return reverse('event-detail', args=[str(self.id)])
 
     def __str__(self):
-        return self.id +" "+self.title + " " +self.date
+        return self.title + " " +str(self.date)
 
 
 class EventForm(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs.update({'class': 'form-control'})
+        self.fields['title'].widget.attrs.update({'placeholder': 'Title'})
+        self.fields['description'].widget.attrs.update({'class': 'form-control'})
+        self.fields['description'].widget.attrs.update({'placeholder': 'Description'})
+    
     class Meta:
         model = Event
         exclude = ['state','author']
+
 
 
 class Subscription(models.Model):
@@ -56,6 +65,17 @@ class Subscription(models.Model):
         ordering = ['dateTime']
 
 class SubscriptionForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs.update({'class': 'form-control'})
+        self.fields['title'].widget.attrs.update({'placeholder': 'Title'})
+        self.fields['description'].widget.attrs.update({'class': 'form-control'})
+        self.fields['description'].widget.attrs.update({'placeholder': 'Description'})
+        self.fields['Date'].widget.attrs.update({'class': 'form-control'})
+        self.fields['State'].widget.attrs.update({'class': 'form-control'})
+
     class Meta:
         model = Subscription
         exclude = ['event','dateTime']
+

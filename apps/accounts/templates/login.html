@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex flex-column">
+    <h3>Sign In</h3>
+    <form class="py-3">{% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-group">
+            <div class="fieldWrapper">
+                {{ form.username.errors }}
+                <label for="{{ form.username.id_for_label }}">username:</label>
+                {{ form.username }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="fieldWrapper" >
+                {{ form.password.errors }}
+                <label for="{{ form.password.id_for_label }}">password:</label>
+                {{ form.password }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
+        <a href={% url 'land' %} class="btn btn-primary">Cancel</a>
+    </form>
+</div>
+</div>
+{% endblock %}

@@ -56,6 +56,17 @@ class User(AbstractBaseUser,PermissionsMixin):
 class SignUpForm(forms.ModelForm):
     '''registration form'''
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'class': 'form-control'})
+        self.fields['username'].widget.attrs.update({'placeholder': 'username'})
+        self.fields['email'].widget.attrs.update({'class': 'form-control'})
+        self.fields['email'].widget.attrs.update({'placeholder': 'email'})
+        self.fields['password1'].widget.attrs.update({'class': 'form-control'})
+        self.fields['password1'].widget.attrs.update({'placeholder': 'password'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control'})
+        self.fields['password2'].widget.attrs.update({'placeholder': 'confirm password'})
+
     password1 = forms.CharField(label='Password',widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation',widget=forms.PasswordInput)
 
@@ -64,6 +75,7 @@ class SignUpForm(forms.ModelForm):
         fields=('username','email')
 
     def clean_password2(self):
+        print("clean password")
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2:
@@ -72,6 +84,7 @@ class SignUpForm(forms.ModelForm):
         return password2
     
     def clean_email(self):
+        print("clean email")
         email = self.cleaned_data.get("email")
         if email:
             if re.search(r'\b[a-z]+@[a-z]+.[a-z0-9]{2,5}\b',email) is None:
@@ -90,3 +103,31 @@ class LoginForm(forms.ModelForm):
     ''' login form '''
     username = forms.CharField(label='username', max_length=60)
     password = forms.CharField(widget=forms.PasswordInput())
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'class': 'form-control'})
+        self.fields['username'].widget.attrs.update({'placeholder': 'username'})
+        self.fields['password'].widget.attrs.update({'class': 'form-control'})
+        self.fields['password'].widget.attrs.update({'placeholder': 'password'})
+
+    class Meta:
+        model = get_user_model()
+        fields=('username','email')
+
+    
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2:
+            if password1!=password2:
+                raise ValidationError("Passwords don't match",code='invalid')
+        return password2
+    
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if email:
+            if re.search(r'\b[a-z]+@[a-z]+.[a-z0-9]{2,5}\b',email) is None:
+                raise ValidationError("Invalid email",code='invalid')
+        return email
