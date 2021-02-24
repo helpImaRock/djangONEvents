@@ -1,10 +1,19 @@
-<div class="d-flex">
-  <div class="dropdown mr-2">
-    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
-      {{ user.username }} Account
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-      <a class="dropdown-item" href={% url 'logout' %}>Logout</a>
+<div class="d-flex flex-row-reverse" style="float: inherit;">
+  <div class="d-flex align-items-center justify-content-sm-between p-4 col-2" style="text-decoration: underline;">
+    {% if not user.is_authenticated %}
+      <a href={% url 'login' %} >Login In</a>
+      <a href={% url 'signup' %} >Sign Up</a>
+    {% else %}
+    <div class="d-flex">
+      <div class="dropdown mr-2">
+        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+          {{ user.username }} Account
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+          <a class="dropdown-item" href={% url 'logout' %}>Logout</a>
+        </div>
+      </div>
     </div>
+    {% endif %}
   </div>
 </div>

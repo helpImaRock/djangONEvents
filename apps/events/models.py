@@ -3,7 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
-
+import datetime
 
 class Event(models.Model):
     
@@ -26,6 +26,11 @@ class Event(models.Model):
     class Meta:
         db_table = "events"
         ordering = ['date']
+        constraints = [
+            models.CheckConstraint(check=models.Q(date__gte=datetime.date.today()), name='date_gte_present'),
+        ]
+        verbose_name = "event"
+        verbose_name_plural = "events"
 
     def get_absolute_url(self):
         return reverse('event-detail', args=[str(self.id)])
@@ -58,7 +63,7 @@ class Subscription(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.id +" "+self.email+" "+self.comment
+        return self.id +" "+self.username+" "+self.comment
 
     class Meta:
         db_table = "subscriptions"
@@ -68,12 +73,12 @@ class SubscriptionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['title'].widget.attrs.update({'class': 'form-control'})
-        self.fields['title'].widget.attrs.update({'placeholder': 'Title'})
-        self.fields['description'].widget.attrs.update({'class': 'form-control'})
-        self.fields['description'].widget.attrs.update({'placeholder': 'Description'})
-        self.fields['Date'].widget.attrs.update({'class': 'form-control'})
-        self.fields['State'].widget.attrs.update({'class': 'form-control'})
+        self.fields['username'].widget.attrs.update({'class': 'form-control'})
+        self.fields['username'].widget.attrs.update({'placeholder': 'Title'})
+        self.fields['email'].widget.attrs.update({'class': 'form-control'})
+        self.fields['email'].widget.attrs.update({'placeholder': 'Description'})
+        self.fields['comment'].widget.attrs.update({'class': 'form-control'})
+        self.fields['comment'].widget.attrs.update({'class': 'form-control'})
 
     class Meta:
         model = Subscription

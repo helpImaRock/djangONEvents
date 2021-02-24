@@ -25,7 +25,7 @@ class SignUpFormView(FormView):
         return super().form_valid(form)
     
     def form_invalid(self, form):
-        #print("INVALID FORM")
+        print("INVALID FORM signup")
         print(form.errors)
         response = super().form_invalid(form)
         return response
@@ -33,7 +33,7 @@ class SignUpFormView(FormView):
     
 def Logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse_lazy('accounts:logout'))
+    return HttpResponseRedirect(reverse_lazy('land'))
 
 class LoginFormView(FormView):
     template_name = 'login.html'
@@ -44,6 +44,8 @@ class LoginFormView(FormView):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
         credentials = form.cleaned_data
+
+        print("credentials: ",credentials)
 
         user = authenticate(username=credentials['username'],
                             password=credentials['password'])
@@ -56,3 +58,9 @@ class LoginFormView(FormView):
             messages.add_message(self.request,messages.INFO,'Wrong credentials\
                     please try again')
             return HttpResponseRedirect(reverse_lazy('accounts:login'))
+
+    def form_invalid(self, form):
+        print("INVALID FORM")
+        print(form.errors)
+        response = super().form_invalid(form)
+        return response

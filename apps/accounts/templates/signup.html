@@ -2,10 +2,9 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="d-flex flex-column">
+<div class="d-flex flex-column align-items-center pt-5">
     <h3>Sign Up</h3>
-    <form class="py-3" method="POST" action="signup">{% csrf_token %}
+    <form class="col-4" method="POST" action="signup">{% csrf_token %}
         
         {{ form.non_field_errors }}
         <div class="form-group">
@@ -38,6 +37,5 @@
         {{form.errors}}
         {% endif %}
     </form>
-</div>
 </div>
 {% endblock %}

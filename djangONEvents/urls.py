@@ -16,19 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from apps.events.views import EventListView,EventDetailView,EventCreateView,LandingView
+from apps.events.views import EventListView,EventDetailView,EventFormView,LandingView
 from apps.accounts.views import SignUpFormView, LoginFormView, Logout
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
     
-    path('',LandingView.as_view(template_name = 'land.html'),name="land"),
+    path('',LandingView.as_view(),name="land"),
     path('accounts/login',LoginFormView.as_view(template_name = 'login.html'),name='login'),
     path('accounts/signup',SignUpFormView.as_view(template_name = 'signup.html'),name='signup'),
     path('accounts/logout/', Logout, name='logout'),
     path('admin/',admin.site.urls),
     path('events/',EventListView.as_view(template_name='events/event_list.html'),name="event-list"),
-    path('events/new',EventCreateView.as_view(template_name='events/new.html'),name="event-form"),
+    path('events/new',EventFormView.as_view(template_name='events/new.html'),name="event-form"),
     path('events/<int:pk>',EventDetailView.as_view(template_name='events/event.html'),name="event-detail"),
 
     

@@ -2,18 +2,6 @@
 
 
 {% block content %}
-
-  <h1>Landing Page</h1>
-  <a href={% url 'event-list' %} >events</a>
-  {% if not user.is_authenticated %}
-    <a href={% url 'login' %} >Sign In</a>
-    <a href={% url 'signup' %} >Sign Up</a>
-  {% endif %}
-  <div>
-    {% if user.is_authenticated %}
-      {% include "account.html" %}
-    {% endif %}
-  </div>
 {% endblock %}
 
 

@@ -24,17 +24,19 @@ class UserManager(BaseUserManager):
         return user
 
 
-    def create_user(self,email,password,**extra_fields):
+    def create_user(self,username,email,password,**extra_fields):
         extra_fields.setdefault('is_superuser',False)
-        return self._create_user(email,password,**extra_fields)
+        return self._create_user(username,email,password,**extra_fields)
 
     
-    def create_superuser(self,email,password,**extra_fields):
+    def create_superuser(self,username,email,password,**extra_fields):
         extra_fields.setdefault('is_superuser',True)
-
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
-        return self._create_user(email,password,**extra_fields)
+        if email =='':
+            default_email='none@none.com'
+            return self._create_user(default_email,password,**extra_fields)
+        return self._create_user(username,email,password,**extra_fields)
 
 
 
@@ -44,13 +46,23 @@ class User(AbstractBaseUser,PermissionsMixin):
     email = models.CharField(_('email'),max_length=40,unique=True,default='')
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(
+        _('staff status'),
+        default=False,
+        help_text=_('Designates whether the user can log into this admin site.'),
+    )
 
     USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS =['email']
 
     objects = UserManager()
 
+    permissions = [('can_create_events', 'Can create Events'),
+                    [('can_create_subscription','Can subscribe to existing Event')]
+    ]
+
     def __str__(self):
-        return 'user '+ self.username + 'with email' + self.email
+        return 'username: '+ self.username + ', email:' + self.email
 
 
 class SignUpForm(forms.ModelForm):
@@ -99,10 +111,10 @@ class SignUpForm(forms.ModelForm):
         return user
 
 
-class LoginForm(forms.ModelForm):
+class LoginForm(forms.Form):
     ''' login form '''
-    username = forms.CharField(label='username', max_length=60)
-    password = forms.CharField(widget=forms.PasswordInput())
+    username = forms.CharField(label='username',max_length=60)
+    password = forms.CharField(label='password',widget=forms.PasswordInput())
 
 
     def __init__(self, *args, **kwargs):
@@ -114,20 +126,4 @@ class LoginForm(forms.ModelForm):
 
     class Meta:
         model = get_user_model()
-        fields=('username','email')
-
-    
-    def clean_password2(self):
-        password1 = self.cleaned_data.get("password1")
-        password2 = self.cleaned_data.get("password2")
-        if password1 and password2:
-            if password1!=password2:
-                raise ValidationError("Passwords don't match",code='invalid')
-        return password2
-    
-    def clean_email(self):
-        email = self.cleaned_data.get("email")
-        if email:
-            if re.search(r'\b[a-z]+@[a-z]+.[a-z0-9]{2,5}\b',email) is None:
-                raise ValidationError("Invalid email",code='invalid')
-        return email
+        fields=('username','password')

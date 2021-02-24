@@ -9,10 +9,9 @@ import datetime
 from .models import Event,EventForm,Subscription,SubscriptionForm
 
 class LandingView(TemplateView):
-    template_name='land.html'
     
     def get(self,request):
-        return render(request,LandingView.template_name)
+        return HttpResponseRedirect('events/')
 
 
 ## check https://docs.djangoproject.com/en/3.1/ref/class-based-views/generic-display/#listview
@@ -34,7 +33,7 @@ class EventDetailView(DetailView):
         return super().get_object()
 
 
-class EventCreateView(CreateView):
+class EventFormView(CreateView):
     model = Event
     form_class = EventForm
     template_name = 'new.html'
@@ -63,8 +62,13 @@ class SubscriptionDetailView(DetailView):
         return super().get_object()
 
 
-class SubscriptionForm(CreateView):
+class SubscriptionFormView(CreateView):
     template_name = 'new.html'
     form_class = SubscriptionForm
-    success_url = '/events/'
+    success_url = '/events/<int:event_id>'
 
+    def form_valid(self,form):
+        self.object = form.save(commit=False)
+        self.object.author= self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())

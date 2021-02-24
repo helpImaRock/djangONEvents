@@ -1,11 +1,27 @@
-<h4>Subscribe</h1>
-<form action="" method="post">{% csrf_token %}
-    <label for="username">Username</label><br>
-    <input type="text" id="username" name="username"><br>
-    <label for="email">Email</label><br>
-    <input type="text" id="email" name="email">
-    <label for="comment">Comment</label><br>
-    <textarea type="text" id="comment" name="comment" rows="4" cols="30"></textarea>
-    <button type="submit" value="Submit">Submit</button>
-    <button><a href={% url 'event-list' %}>Cancel</a></button>
-</form>
+<div class="d-flex flex-column align-items-center">
+    <h4>Subscribe</h1>
+    <form action="" method="post" class="py-3">{% csrf_token %}
+        <div class="form-group">
+            <div class="fieldWrapper">
+                {{ form.username.errors }}
+                <label for="{{ form.username.id_for_label }}">username</label>
+                {{ form.username }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="fieldWrapper">
+                {{ form.email.errors }}
+                <label for="{{ form.email.id_for_label }}">email</label>
+                {{ form.email }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="fieldWrapper">
+                {{ form.comment.errors }}
+                <label for="{{ form.comment.id_for_label }}">comment</label>
+                {{ form.comment }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
+    </form>
+</div>
