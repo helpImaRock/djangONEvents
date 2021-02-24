@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from apps.events.views import EventListView,EventDetailView,EventFormView,LandingView
+from apps.events.views import EventListView,EventSubscriptionView,EventFormView,LandingView,SubscriptionFormView
 from apps.accounts.views import SignUpFormView, LoginFormView, Logout
 
 urlpatterns = [
@@ -29,7 +29,8 @@ urlpatterns = [
     path('admin/',admin.site.urls),
     path('events/',EventListView.as_view(template_name='events/event_list.html'),name="event-list"),
     path('events/new',EventFormView.as_view(template_name='events/new.html'),name="event-form"),
-    path('events/<int:pk>',EventDetailView.as_view(template_name='events/event.html'),name="event-detail"),
+    path('events/<int:pk>',EventSubscriptionView.as_view(template_name='events/event.html'),name="event-detail"),
+    #path('events/<int:pk>/subscription',SubscriptionFormView.as_view(template_name='subscription/new.html'),name="subscription-form"),
 
     
     #path('accounts/registration/',RegistrationView.as_view(),name="register"),

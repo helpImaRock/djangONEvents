@@ -20,8 +20,16 @@
                     {{ form.password }}
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
-            <a href={% url 'land' %} class="btn btn-primary">Cancel</a>
+            <button type="submit" class="btn btn-primary" value="Submit">Sign In</button>
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags %}
+                    <div class="alert alert-primary" role="alert">
+                        {{ message }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </form>
         </div>
 {% endblock %}

@@ -19,7 +19,7 @@ class SignUpFormView(FormView):
         print(form)
         user = form.save(commit=False)
         user.save()
-        login(self.request, user)
+        a = login(self.request, user)
         if user is not None:
             return HttpResponseRedirect(self.success_url)
         return super().form_valid(form)
@@ -49,15 +49,17 @@ class LoginFormView(FormView):
 
         user = authenticate(username=credentials['username'],
                             password=credentials['password'])
-
+        print(" user:", user)
         if user is not None:
-            login(self.request,user)
+            a = login(self.request,user)
+            print("login result is: ",a)
             return HttpResponseRedirect(self.success_url)
 
         else:
             messages.add_message(self.request,messages.INFO,'Wrong credentials\
                     please try again')
-            return HttpResponseRedirect(reverse_lazy('accounts:login'))
+            
+            return HttpResponseRedirect(reverse_lazy('login'))
 
     def form_invalid(self, form):
         print("INVALID FORM")

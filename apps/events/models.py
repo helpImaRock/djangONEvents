@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 import datetime
+from apps.accounts.models import User
 
 class Event(models.Model):
     
@@ -56,11 +57,10 @@ class EventForm(forms.ModelForm):
 
 class Subscription(models.Model):
 
-    username = models.CharField(_("Username"),max_length=30)
-    email = models.CharField(_("Email"),max_length=30)
+    subscriber = models.ForeignKey(User,on_delete=models.CASCADE,null=False,default='')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE,null=False,default='')
     comment = models.TextField(_("Comment"),null=False)
     dateTime = models.DateTimeField(_("DateTime"),auto_now_add=True)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.id +" "+self.username+" "+self.comment
@@ -69,18 +69,25 @@ class Subscription(models.Model):
         db_table = "subscriptions"
         ordering = ['dateTime']
 
+    def __str__(self):
+        return "event: "+str(self.id)+" user: "+self.subscriber.username + " comment: " +str(self.comment)
+
 class SubscriptionForm(forms.ModelForm):
+
+    username = forms.CharField(label='username',max_length=60)
+    email = forms.CharField(label='email',)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update({'class': 'form-control'})
-        self.fields['username'].widget.attrs.update({'placeholder': 'Title'})
+        self.fields['username'].widget.attrs.update({'placeholder': 'username'})
         self.fields['email'].widget.attrs.update({'class': 'form-control'})
-        self.fields['email'].widget.attrs.update({'placeholder': 'Description'})
+        self.fields['email'].widget.attrs.update({'placeholder': 'email'})
         self.fields['comment'].widget.attrs.update({'class': 'form-control'})
-        self.fields['comment'].widget.attrs.update({'class': 'form-control'})
+        self.fields['comment'].widget.attrs.update({'placeholder': 'comment'})
 
     class Meta:
         model = Subscription
         exclude = ['event','dateTime']
+        fields=('comment',)
 
