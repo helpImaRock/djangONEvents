@@ -1,46 +1,42 @@
 {% extends "base.html" %}
-
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 {% block content %}
 {% include "account.html" %}
-<div>
-    
-    <h3>Create Event</h3>
+<div class="d-flex flex-column align-items-center p-5">
+    <h3>{% translate 'Create Event' %}</h3>
     <form action="" method="post">{% csrf_token %}
         {{ form.non_field_errors }}
         <div class="form-group">
-            <div class="fieldWrapper col-4">
+            <div class="fieldWrapper">
                 {{ form.title.errors }}
-                <label for="{{ form.title.id_for_label }}">Title:</label>
+                <label for="{{ form.title.id_for_label }}">{% translate 'Title' %}</label>
                 {{ form.title }}
             </div>
         </div>
         <div class="form-group">
-            <div class="fieldWrapper col-4">
+            <div class="fieldWrapper">
                 {{ form.description.errors }}
-                <label for="{{ form.description.id_for_label }}">Description:</label>
+                <label for="{{ form.description.id_for_label }}">{% translate 'Description' %}</label>
                 {{ form.description }}
             </div>
         </div>
         <div class="form-group">
-            <div class="fieldWrapper col-4">
+            <div class="fieldWrapper">
                 {{ form.date.errors }}
-                <label for="{{ form.date.id_for_label }}">Date:</label>
-                <input id="{{ form.date.id_for_label }}" type="date" value="{{form.date}}">
+                <label for="{{ form.date.id_for_label }}">{% translate 'Date' %}</label>
+                {{form.date}}
             </div>
         </div>
         <div class="form-group">
-            <div class="fieldWrapper col-4">
+            <div class="fieldWrapper">
                 {{ form.state.errors }}
-                <label for="{{ form.state.id_for_label }}">State:</label>
-                <select name="cars" id="{{ form.state.id_for_label }}">
-                    <option value="Draft">Draft</option>
-                    <option value="Public">Public</option>
-                    <option value="Private">Private</option>
-                </select>
+                <label for="{{ form.state.id_for_label }}">{% translate 'State' %}</label>
+                {{form.state}}
             </div>
         </div>
-        <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
-        <a href={% url 'event-list' %} class="btn btn-primary">Cancel</a>
+        <button type="submit" value="Submit" class="btn btn-primary">{% translate 'Publish' %}</button>
+        <a href={% url 'event-list' %} class="btn btn-primary">{% translate 'Cancel' %}</a>
     </form>
 </div>
 {% endblock %}

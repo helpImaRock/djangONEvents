@@ -1,6 +1,6 @@
 from django import forms
 from django.db import models
-from django.contrib.auth.base_user import AbstractBaseUser,BaseUserManager
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
@@ -9,60 +9,59 @@ import re
 
 # Create your models here.
 
+
 class UserManager(BaseUserManager):
-    use_in_migration = True # WTF is this?
+    use_in_migration = True  # ?
 
-    def _create_user(self,username,email,password,**extra_fields):
-
+    def _create_user(self, username, email, password, **extra_fields):
         if not email:
-            raise ValueError('email must be set')
+            raise ValueError(_('email must be set'))
         if not username:
-            raise ValueError('username must be set')
-        user = self.model(email=email,username=username,**extra_fields)
+            raise ValueError(_('username must be set'))
+        user = self.model(email=email, username=username, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
+    def create_user(self, username, email, password, **extra_fields):
+        print("CREATING USER")
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(username, email, password, **extra_fields)
 
-    def create_user(self,username,email,password,**extra_fields):
-        extra_fields.setdefault('is_superuser',False)
-        return self._create_user(username,email,password,**extra_fields)
-
-    
-    def create_superuser(self,username,email,password,**extra_fields):
-        extra_fields.setdefault('is_superuser',True)
+    def create_superuser(self, username, email, password, **extra_fields):
+        extra_fields.setdefault('is_superuser', True)
         if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
-        if email =='':
-            default_email='none@none.com'
-            return self._create_user(default_email,password,**extra_fields)
-        return self._create_user(username,email,password,**extra_fields)
+            raise ValueError(_('Superuser must have is_superuser=True.'))
+        if email == '':
+            default_email = 'none@none.com'
+            return self._create_user(default_email, password, **extra_fields)
+        return self._create_user(username, email, password, **extra_fields)
 
 
+class User(AbstractBaseUser):
 
-class User(AbstractBaseUser,PermissionsMixin):
-
-    username = models.CharField(_('username'),max_length=40, unique=True,blank=False)
-    email = models.CharField(_('email'),max_length=40,unique=True,default='')
+    username = models.CharField('username', max_length=40,
+                                unique=True, blank=False)
+    email = models.CharField('email', max_length=40, unique=True, default='')
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(
-        _('staff status'),
+        'staff status',
         default=False,
-        help_text=_('Designates whether the user can log into this admin site.'),
+        help_text='Designates whether the user can log into this admin site.',
+    )
+    is_anon = models.BooleanField(
+        "anonymous_user", default=False,
+        help_text='allows for an "anonymous user to save username and email.'
     )
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS =['email']
+    # REQUIRED_FIELDS =['email']
 
     objects = UserManager()
 
-    permissions = [('can_create_events', 'Can create Events'),
-                    [('can_create_subscription','Can subscribe to existing Event')]
-    ]
-
     def __str__(self):
-        return 'username: '+ self.username + ', email:' + self.email
+        return 'username:' + self.username + ', email: ' + self.email
 
 
 class SignUpForm(forms.ModelForm):
@@ -71,39 +70,47 @@ class SignUpForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update({'class': 'form-control'})
-        self.fields['username'].widget.attrs.update({'placeholder': 'username'})
+        self.fields['username'].widget.attrs.update(
+            {'placeholder': _('username')}
+        )
         self.fields['email'].widget.attrs.update({'class': 'form-control'})
-        self.fields['email'].widget.attrs.update({'placeholder': 'email'})
+        self.fields['email'].widget.attrs.update({'placeholder': _('email')})
         self.fields['password1'].widget.attrs.update({'class': 'form-control'})
-        self.fields['password1'].widget.attrs.update({'placeholder': 'password'})
+        self.fields['password1'].widget.attrs.update(
+            {'placeholder': _('password')}
+        )
         self.fields['password2'].widget.attrs.update({'class': 'form-control'})
-        self.fields['password2'].widget.attrs.update({'placeholder': 'confirm password'})
+        self.fields['password2'].widget.attrs.update(
+            {'placeholder': _('confirm password')}
+        )
 
-    password1 = forms.CharField(label='Password',widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation',widget=forms.PasswordInput)
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label='Password confirmation', widget=forms.PasswordInput
+    )
 
     class Meta:
         model = get_user_model()
-        fields=('username','email')
+        fields = ('username', 'email')
 
     def clean_password2(self):
-        print("clean password")
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2:
-            if password1!=password2:
-                raise ValidationError("Passwords don't match",code='invalid')
+            if password1 != password2:
+                raise ValidationError(
+                    _("Passwords don't match"), code='invalid'
+                )
         return password2
-    
+
     def clean_email(self):
-        print("clean email")
         email = self.cleaned_data.get("email")
         if email:
-            if re.search(r'\b[a-z]+@[a-z]+.[a-z0-9]{2,5}\b',email) is None:
-                raise ValidationError("Invalid email",code='invalid')
+            if re.search(r'\b[a-z0-9]+@[a-z]+.[a-z0-9]{2,5}\b', email) is None:
+                raise ValidationError(_("Invalid email"), code='invalid')
         return email
 
-    def save(self,commit=True):
+    def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         if commit:
@@ -113,17 +120,20 @@ class SignUpForm(forms.ModelForm):
 
 class LoginForm(forms.Form):
     ''' login form '''
-    username = forms.CharField(label='username',max_length=60)
-    password = forms.CharField(label='password',widget=forms.PasswordInput())
-
+    username = forms.CharField(label='username', max_length=60)
+    password = forms.CharField(label='password', widget=forms.PasswordInput())
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update({'class': 'form-control'})
-        self.fields['username'].widget.attrs.update({'placeholder': 'username'})
+        self.fields['username'].widget.attrs.update(
+            {'placeholder': _('username')}
+        )
         self.fields['password'].widget.attrs.update({'class': 'form-control'})
-        self.fields['password'].widget.attrs.update({'placeholder': 'password'})
+        self.fields['password'].widget.attrs.update(
+            {'placeholder': _('password')}
+        )
 
     class Meta:
         model = get_user_model()
-        fields=('username','password')
+        fields = ('username', 'password')

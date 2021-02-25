@@ -1,10 +1,11 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
-from django.contrib.auth import login,authenticate,logout
+from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.urls import reverse_lazy
-from .models import SignUpForm,LoginForm
+from .models import SignUpForm, LoginForm
 from django.http import HttpResponseRedirect, HttpResponse
+from django.utils.translation import ugettext_lazy as _
 
 # Create your views here.
 
@@ -16,24 +17,22 @@ class SignUpFormView(FormView):
 
     def form_valid(self, form):
         """ process user signup"""
-        print(form)
         user = form.save(commit=False)
         user.save()
         a = login(self.request, user)
         if user is not None:
             return HttpResponseRedirect(self.success_url)
         return super().form_valid(form)
-    
+
     def form_invalid(self, form):
-        print("INVALID FORM signup")
-        print(form.errors)
         response = super().form_invalid(form)
         return response
 
-    
+
 def Logout(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy('land'))
+
 
 class LoginFormView(FormView):
     template_name = 'login.html'
@@ -45,24 +44,18 @@ class LoginFormView(FormView):
         # It should return an HttpResponse.
         credentials = form.cleaned_data
 
-        print("credentials: ",credentials)
-
         user = authenticate(username=credentials['username'],
                             password=credentials['password'])
-        print(" user:", user)
         if user is not None:
-            a = login(self.request,user)
-            print("login result is: ",a)
+            a = login(self.request, user)
             return HttpResponseRedirect(self.success_url)
 
         else:
-            messages.add_message(self.request,messages.INFO,'Wrong credentials\
-                    please try again')
-            
+            messages.add_message(self.request, messages.INFO, _('Wrong credentials\
+                    please try again'))
             return HttpResponseRedirect(reverse_lazy('login'))
 
     def form_invalid(self, form):
-        print("INVALID FORM")
         print(form.errors)
         response = super().form_invalid(form)
         return response

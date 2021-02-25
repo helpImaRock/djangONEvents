@@ -1,11 +1,13 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <div class="d-flex flex-column align-items-center">
-    <h4>Subscribe</h1>
+    <h4>{% translate 'Subscribe' %}</h1>
         
     <form action="" method="post" class="py-3">{% csrf_token %}
         <div class="form-group">
             <div class="fieldWrapper">
                 {{ form.username.errors }}
-                <label for="{{ form.username.id_for_label }}">username</label>
+                <label for="{{ form.username.id_for_label }}">{% translate 'username' %}</label>
                 {% if user.is_authenticated %}
                 <input id="id_username" class="form-control" type="text" name="username"
                     maxlength="60" value='{{user.username}}' readonly>
@@ -17,7 +19,7 @@
         <div class="form-group">
             <div class="fieldWrapper">
                 {{ form.email.errors }}
-                <label for="{{ form.email.id_for_label }}">email</label>
+                <label for="{{ form.email.id_for_label }}">{% translate 'email' %}</label>
                 {% if user.is_authenticated %}
                 <input id="id_email" class="form-control" type="text" name="email"
                     maxlength="60" value='{{user.email}}' readonly>
@@ -29,10 +31,10 @@
         <div class="form-group">
             <div class="fieldWrapper">
                 {{ form.comment.errors }}
-                <label for="{{ form.comment.id_for_label }}">comment</label>
+                <label for="{{ form.comment.id_for_label }}">{% translate 'comment' %}</label>
                 {{ form.comment }}
             </div>
         </div>
-        <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
+        <button type="submit" class="btn btn-primary" value="Submit">{% translate 'Submit' %}</button>
     </form>
 </div>

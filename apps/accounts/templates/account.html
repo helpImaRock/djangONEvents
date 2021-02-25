@@ -1,24 +1,32 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <div class="d-flex flex-row-reverse justify-content-sm-between">
-  
   <div class="d-flex align-items-center justify-content-sm-between p-4 col-2" style="text-decoration: underline;">
     {% if not user.is_authenticated %}
-      <a href={% url 'login' %} >Login In</a>
-      <a href={% url 'signup' %} >Sign Up</a>
-    {% else %}
+    {% if request.path  == "/accounts/login" %}
+      <div></div>
+      {% elif request.path  == "/accounts/signup" %}
+        <div></div>
+      {% else %}
+        <a href={% url 'login' %} >{% translate 'Sign In' %}</a>
+        <a href={% url 'signup' %} >{% translate 'Sign Up' %}</a>
+      {% endif %}
+
+      {% else %}
     <div class="d-flex">
       <div class="dropdown mr-2">
         <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
-          {{ user.username }} Account
+          {{ user.username }}
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-          <a class="dropdown-item" href={% url 'logout' %}>change password</a>
-          <a class="dropdown-item" href={% url 'logout' %}>Logout</a>
+          <a class="dropdown-item" href={% url 'logout' %}>{% translate 'change password' %}</a>
+          <a class="dropdown-item" href={% url 'logout' %}>{% translate 'Logout' %}</a>
         </div>
       </div>
     </div>
     {% endif %}
   </div>
   <div class="d-flex align-items-center  p-4 col-2">
-          <a class="dropdown-item" href={% url 'land' %}>Home</a>
+          <a class="dropdown-item" href={% url 'land' %}>{% translate 'Events' %}</a>
   </div>
 </div>

@@ -1,25 +1,40 @@
 {% extends "base.html" %}
-
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 {% block content %}
 {% include "account.html" %}
 
   <div class="d-flex flex-column align-items-center">
     {% if event %}
       <div class="card p-3" style="width: 45em;" id={{event.pk}}>
-          <h5 class="card-header">{{event.title}}</h5>
+            <h5 class="card-header">{{event.title}}</h5>
+            
           <div class="card-body">
             <div id ="description">
               {{event.description}}
             </div>
             <div id="info" class="pt-5 d-flex flex-row text-muted justify-content-between">
-              <p>by: {{event.author.username}}</p>
+              <p>{% translate 'by:' %} {{event.author.username}}</p>
               <p>{{event.date}}</p>
             </div>
           </div>
+          {% if event.state == 'DF' %}
+            <div class="alert alert-warning justify-content-md-between" role="alert">
+              Draft
+            </div>
+            {% elif event.state == 'PU' %}
+            <div class="alert alert-success" role="alert">
+              Public
+            </div>
+            {% else %}
+            <div class="alert alert-info" role="alert">
+              Private
+            </div>
+            {% endif %}
+          
       </div>
     
       <div class="p-3">
-        
         
         {% if event.author == request.user %}
           {% include "subscriptions/subscription_list.html" %}
@@ -27,7 +42,7 @@
           {% if subscribed %}
             
             <div class="alert alert-info" role="alert">
-              You are subscribed to this event
+              {% translate 'You are subscribed to this event' %}
             </div>
           {% else %}
             {% include "subscriptions/new.html" %}

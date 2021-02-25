@@ -1,22 +1,23 @@
 {% extends "base.html" %}
-
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 {% block content %}
 <div class="d-flex flex-column align-items-center"></div>
-  <h4>Subscriptions</h4>
+  <h4>{% translate 'Subscriptions' %}</h4>
   {% if subscriptions %}
   <ul class="list-group">
     {% for subscription in subscriptions %}
     <li class="list-group-item">
       <div class="d-flex flex-row justify-content-md-between">
-        <div >{{subscription.username}}</div>
-        <div >{{subscription.comment}}</div>
-        <div>{{subscription.dateTime}}</div>
+        <div>{{subscription.username}}</div>
+        <div>{{subscription.comment}}</div>
+        <div>{{subscription.date}}</div>
       </div>
     </li>
     {% endfor %}
   </ul>
   {% else %}
-    <p>There are no subscriptions registered.</p>
+    <p>{% translate 'There are no subscriptions registered' %}</p>
   {% endif %}
 </div>
 {% endblock %}

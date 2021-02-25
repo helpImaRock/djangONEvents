@@ -1,0 +1,13 @@
+{% if event.state == 'DF' %}
+            <div class="alert alert-warning justify-content-md-between" role="alert">
+              Draft
+            </div>
+            {% elif event.state == 'PU' %}
+            <div class="alert alert-success" role="alert">
+              Public
+            </div>
+            {% else %}
+            <div class="alert alert-info" role="alert">
+              Private
+            </div>
+            {% endif %}

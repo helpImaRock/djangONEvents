@@ -16,23 +16,41 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from apps.events.views import EventListView,EventSubscriptionView,EventFormView,LandingView,SubscriptionFormView
+from apps.events.views import EventListView, EventSubscriptionView
+from apps.events.views import EventFormView, LandingView, SubscriptionFormView
 from apps.accounts.views import SignUpFormView, LoginFormView, Logout
 
 urlpatterns = [
-    #path('admin/', admin.site.urls),
-    
-    path('',LandingView.as_view(),name="land"),
-    path('accounts/login',LoginFormView.as_view(template_name = 'login.html'),name='login'),
-    path('accounts/signup',SignUpFormView.as_view(template_name = 'signup.html'),name='signup'),
-    path('accounts/logout/', Logout, name='logout'),
-    path('admin/',admin.site.urls),
-    path('events/',EventListView.as_view(template_name='events/event_list.html'),name="event-list"),
-    path('events/new',EventFormView.as_view(template_name='events/new.html'),name="event-form"),
-    path('events/<int:pk>',EventSubscriptionView.as_view(template_name='events/event.html'),name="event-detail"),
-    #path('events/<int:pk>/subscription',SubscriptionFormView.as_view(template_name='subscription/new.html'),name="subscription-form"),
-
-    
-    #path('accounts/registration/',RegistrationView.as_view(),name="register"),
-    #path('accounts/login/',LoginView.as_view(),name="login"),
+    path('i18n/', include('django.conf.urls.i18n')),
+    path('admin/', admin.site.urls),
+    path('', LandingView.as_view(), name="land"),
+    path(
+        'accounts/login',
+        LoginFormView.as_view(template_name='login.html'),
+        name='login'
+    ),
+    path(
+        'accounts/signup',
+        SignUpFormView.as_view(template_name='signup.html'),
+        name='signup'
+    ),
+    path(
+        'accounts/logout/',
+        Logout, name='logout'
+    ),
+    path(
+        'events/',
+        EventListView.as_view(template_name='events/event_list.html'),
+        name="event-list"
+    ),
+    path(
+        'events/new',
+        EventFormView.as_view(template_name='events/new.html'),
+        name="event-form"
+    ),
+    path(
+        'events/<int:pk>',
+        EventSubscriptionView.as_view(template_name='events/event.html'),
+        name="event-detail"
+    ),
 ]
