@@ -1,12 +1,24 @@
 
-## how to run
+## How to test ##
 
-### python -m venv venv
+- - - -
 
-### source venv/bin/activate
+```python -m venv venv
+```
 
-### python -r install requirements.txt
+```source venv/bin/activate
+```
 
-### python manage.py migrate
+```pip3 -r install requirements.txt
+```
 
-### python manage.py runserver
+```python manage.py migrate
+```
+
+```python manage.py runserver
+```
+
+* Migrations included *
+
+* user: admin password: admin123p *
+* has access to admin/*
