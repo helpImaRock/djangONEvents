@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% get_current_language as LANGUAGE_CODE %}
-
 {% block content %}
 {% include "account.html" %}
   <div class="d-flex flex-column align-items-center ">
@@ -23,15 +21,15 @@
                   <div>
                     {% if event.state == 'DF' %}
             <div class="alert alert-warning justify-content-md-between" role="alert">
-              Draft
+              {% translate 'Draft' %}
             </div>
             {% elif event.state == 'PU' %}
             <div class="alert alert-success" role="alert">
-              Public
+              {% translate 'Public' %}
             </div>
             {% else %}
             <div class="alert alert-info" role="alert">
-              Private
+              {% translate 'Private' %}
             </div>
             {% endif %}
                 </div>
@@ -50,15 +48,15 @@
                 </div>
                 {% if event.state == 'DF' %}
             <div class="alert alert-warning justify-content-md-between" role="alert">
-              Draft
+              {% translate 'Draft' %}
             </div>
             {% elif event.state == 'PU' %}
             <div class="alert alert-success" role="alert">
-              Public
+              {% translate 'Public' %}
             </div>
             {% else %}
             <div class="alert alert-info" role="alert">
-              Private
+              {% translate 'Private' %}
             </div>
             {% endif %}
           </li styles="underline:none">
@@ -78,15 +76,15 @@
                 </div>
                 {% if event.state == 'DF' %}
             <div class="alert alert-warning justify-content-md-between" role="alert">
-              Draft
+              {% translate 'Draft' %}
             </div>
             {% elif event.state == 'PU' %}
             <div class="alert alert-success" role="alert">
-              Public
+              {% translate 'Public' %}
             </div>
             {% else %}
             <div class="alert alert-info" role="alert">
-              Private
+              {% translate 'Private' %}
             </div>
             {% endif %}
           </li styles="underline:none">

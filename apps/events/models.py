@@ -16,7 +16,7 @@ class Event(models.Model):
         PRIVATE = 'PR', _('Private')
 
     title = models.CharField(
-        "title", max_length=30, unique=True, blank=False, default=''
+        "title", max_length=30, blank=False, default=''
     )
     description = models.TextField(
         "description", max_length=200, null=False, default=''
@@ -94,8 +94,8 @@ class Subscription(models.Model):
         ordering = ['date']
 
     def __str__(self):
-        return _("event") + ": " + str(self.id) + _("user") + ": " \
-            + self.subscriber.username + _("comment") \
+        return "event" + ": " + str(self.id) + "user" + ": " \
+            + self.subscriber.username + "comment" \
             + ": " + str(self.comment)
 
 

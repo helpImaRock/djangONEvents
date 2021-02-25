@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-25 00:24+0100\n"
+"POT-Creation-Date: 2021-02-25 10:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,185 +18,155 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: accounts/models.py:17
+#: accounts/models.py:18
 msgid "email must be set"
 msgstr "email tem de ser definido"
 
-#: accounts/models.py:19
+#: accounts/models.py:20
 msgid "username must be set"
 msgstr "nome de utilizador tem de ser definido"
 
-#: accounts/models.py:35
+#: accounts/models.py:34
 msgid "Superuser must have is_superuser=True."
 msgstr "Suerpuser tem de ter is_superuser=True"
 
-#: accounts/models.py:76 accounts/models.py:123
-#: accounts/templates/login.html:14 accounts/templates/signup.html:13
-#: events/models.py:78 events/models.py:84
-#: events/templates/subscriptions/new.html:10
+#: accounts/models.py:74 accounts/models.py:130 events/models.py:104
+#: events/models.py:111
 msgid "username"
 msgstr "nome de utilizador"
 
-#: accounts/models.py:78 accounts/templates/signup.html:19 events/models.py:79
-#: events/models.py:86 events/templates/subscriptions/new.html:22
+#: accounts/models.py:77 events/models.py:105 events/models.py:114
 msgid "email"
 msgstr "email"
 
-#: accounts/models.py:80 accounts/models.py:125
-#: accounts/templates/login.html:21 accounts/templates/signup.html:25
+#: accounts/models.py:80 accounts/models.py:134
 msgid "password"
 msgstr "palavra-chave"
 
-#: accounts/models.py:82
+#: accounts/models.py:84
 msgid "confirm password"
 msgstr "confirmar palavra-chave"
 
-#: accounts/models.py:96
+#: accounts/models.py:102
 msgid "Passwords don't match"
 msgstr "Palavras-chave diferem"
 
-#: accounts/models.py:103
+#: accounts/models.py:110
 msgid "Invalid email"
 msgstr "Email inválido"
 
-#: accounts/templates/account.html:11 accounts/templates/login.html:8
-#: accounts/templates/login.html:25
-msgid "Sign In"
-msgstr "Entrar"
-
-#: accounts/templates/account.html:12 accounts/templates/signup.html:7
-msgid "Sign Up"
-msgstr "Registar"
-
-#: accounts/templates/account.html:22
-msgid "change password"
-msgstr "Mudar palavra-chave"
-
-#: accounts/templates/account.html:23
-msgid "Logout"
-msgstr "Sair"
-
-#: accounts/templates/account.html:30 events/templates/events/event_list.html:8
-msgid "Events"
-msgstr "Eventos"
-
-#: accounts/templates/signup.html:31
-msgid "confirmation"
-msgstr "confirmação"
-
-#: accounts/templates/signup.html:35 events/templates/subscriptions/new.html:38
-msgid "Submit"
-msgstr "Submeter"
-
-#: accounts/templates/signup.html:36 events/templates/events/new.html:43
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: accounts/views.py:53
+#: accounts/views.py:54
 msgid "Wrong credentials                    please try again"
 msgstr "Credenciais incorrectas por favor tente de novo"
 
-#: events/models.py:12 events/templates/events/new.html:36
+#: events/models.py:14
 msgid "Draft"
 msgstr "Rascunho"
 
-#: events/models.py:13 events/templates/events/new.html:37
+#: events/models.py:15
 msgid "Public"
 msgstr "Público"
 
-#: events/models.py:14 events/templates/events/new.html:38
+#: events/models.py:16
 msgid "Private"
 msgstr "Privado"
 
-#: events/models.py:48
+#: events/models.py:61
 msgid "title"
 msgstr "título"
 
-#: events/models.py:50
+#: events/models.py:66
 msgid "description"
 msgstr "descrição"
 
-#: events/models.py:73
+#: events/models.py:97
 msgid "event"
 msgstr "evento"
 
-#: events/models.py:73
+#: events/models.py:97
 msgid "user"
 msgstr "utilizador"
 
-#: events/models.py:74 events/models.py:88
-#: events/templates/subscriptions/new.html:34
+#: events/models.py:98 events/models.py:117
 msgid "comment"
 msgstr "comentário"
 
-#: events/templates/events/event.html:16
+msgid "Go"
+msgstr "Ir"
+
+msgid "Sign In"
+msgstr "Entrar"
+
+msgid "Sign Up"
+msgstr "Registar"
+
+msgid "change password"
+msgstr "Mudar palavra-chave"
+
+msgid "Logout"
+msgstr "Sair"
+
+msgid "Events"
+msgstr "Eventos"
+
+msgid "confirmation"
+msgstr "confirmação"
+
+msgid "Submit"
+msgstr "Submeter"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
 msgid "by:"
 msgstr "por:"
 
-#: events/templates/events/event.html:31
 msgid "You are subscribed to this event"
 msgstr "Está subscrito a este evento"
 
-#: events/templates/events/event_list.html:18
 msgid "Author:"
 msgstr "Autor:"
 
-#: events/templates/events/event_list.html:19
 #, fuzzy
-#| msgid "Date"
 msgid "Date:"
 msgstr "Data:"
 
-#: events/templates/events/event_list.html:27
 msgid "No events registered"
 msgstr "Sem eventos registados"
 
-#: events/templates/events/event_list.html:31
 msgid "create event"
 msgstr "criar evento"
 
-#: events/templates/events/new.html:7
 msgid "Create Event"
 msgstr "Criar Evento"
 
-#: events/templates/events/new.html:13
 msgid "Title"
 msgstr "Título"
 
-#: events/templates/events/new.html:20
 msgid "Description"
 msgstr "Descrição"
 
-#: events/templates/events/new.html:27
 msgid "Date"
 msgstr "Data"
 
-#: events/templates/events/new.html:34
 msgid "State"
 msgstr "Estado"
 
-#: events/templates/events/new.html:42
 msgid "Publish"
 msgstr "Publicar"
 
-#: events/templates/subscriptions/new.html:4
 msgid "Subscribe"
 msgstr "Subscrever"
 
-#: events/templates/subscriptions/subscription.html:5
 msgid "Subscription"
 msgstr "Subscrição"
 
-#: events/templates/subscriptions/subscription.html:13
 msgid "Subscription not found"
 msgstr "Subscrição não encontrada"
 
-#: events/templates/subscriptions/subscription_list.html:6
 #, fuzzy
-msgid "Subscriptions"
-msgstr "Subscrições"
+msgid "Subscriptions "
+msgstr "Subscrições "
 
-
-#: events/templates/subscriptions/subscription_list.html:20
 msgid "There are no subscriptions registered"
 msgstr "Não existem subscrições registadas"

@@ -24,21 +24,19 @@ class UserManager(BaseUserManager):
         return user
 
     def create_user(self, username, email, password, **extra_fields):
-        print("CREATING USER")
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(username, email, password, **extra_fields)
 
     def create_superuser(self, username, email, password, **extra_fields):
         extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_admin', True)
+        extra_fields.setdefault('is_staff', True)
         if extra_fields.get('is_superuser') is not True:
             raise ValueError(_('Superuser must have is_superuser=True.'))
-        if email == '':
-            default_email = 'none@none.com'
-            return self._create_user(default_email, password, **extra_fields)
         return self._create_user(username, email, password, **extra_fields)
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
 
     username = models.CharField('username', max_length=40,
                                 unique=True, blank=False)
@@ -54,9 +52,14 @@ class User(AbstractBaseUser):
         "anonymous_user", default=False,
         help_text='allows for an "anonymous user to save username and email.'
     )
+    is_superuser = models.BooleanField(
+        'staff status',
+        default=False,
+        help_text='superuser error bypass',
+    )
 
     USERNAME_FIELD = 'username'
-    # REQUIRED_FIELDS =['email']
+    REQUIRED_FIELDS =['email']
 
     objects = UserManager()
 
