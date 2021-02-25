@@ -3,22 +3,26 @@
 
 - - - -
 
-```python -m venv venv
+```bash
+python -m venv venv
 ```
 
-```source venv/bin/activate
+```bash
+source venv/bin/activate
 ```
 
-```pip3 -r install requirements.txt
+```bash
+pip3 -r install requirements.txt
 ```
 
-```python manage.py migrate
+```bash
+python manage.py migrate
 ```
 
-```python manage.py runserver
+```bash
+python manage.py runserver
 ```
 
-* Migrations included *
+_Migrations included_
 
-* user: admin password: admin123p *
-* has access to admin/*
+_user: admin password: admin123p has access to admin/_ 
