@@ -4,7 +4,7 @@ from django.views.generic.edit import FormView
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.urls import reverse_lazy
-from .models import SignUpForm, LoginForm
+from .forms import SignUpForm, LoginForm
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils.translation import ugettext_lazy as _
 
@@ -19,7 +19,8 @@ class SignUpFormView(FormView):
     def form_valid(self, form):
         """ process user signup"""
         user = form.save(commit=False)
-        user.save()
+        b = user.save()
+        print("on form validation: ",b)
         a = login(self.request, user)
         if user is not None:
             return HttpResponseRedirect(self.success_url)
@@ -51,13 +52,15 @@ class LoginFormView(FormView,SuccessMessageMixin):
                             password=credentials['password'])
         if user is not None:
             a = login(self.request, user)
+            print(self.success_url)
             return HttpResponseRedirect(self.success_url)
 
         else:
             messages.add_message(self.request, messages.ERROR, _('Wrong credentials '
                     +'please try again'))
-            #return HttpResponseRedirect(reverse_lazy('login'))
-            return render(self.request, 'login.html')
+            response = HttpResponseRedirect(reverse_lazy('login'))
+            return response
+            #return render(self.request, 'login.html')
 
     def form_invalid(self, form):
         response = super().form_invalid(form)

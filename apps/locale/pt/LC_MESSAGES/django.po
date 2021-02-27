@@ -48,8 +48,8 @@ msgid "confirm password"
 msgstr "confirmar palavra-chave"
 
 #: accounts/models.py:102
-msgid "Passwords don't match"
-msgstr "Palavras-chave diferem"
+msgid "Passwords mismatch."
+msgstr "Palavras-chave diferem."
 
 #: accounts/models.py:110
 msgid "Invalid email"
