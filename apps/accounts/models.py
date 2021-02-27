@@ -23,11 +23,22 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, username, email, password, **extra_fields):
+    def create_regular_user(self, username, email, password, **extra_fields):
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(username, email, password, **extra_fields)
+
+    def create_anonymous_user(self, username, email, **extra_fields):
+        extra_fields.setdefault('is_active',False)
+        extra_fields.setdefault('is_anon',False)
+        return self._create_user(username, email, password, **extra_fields)
+    
+    def create_user(self, username, email, **extra_fields):
+        print("password: ",password)
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(username, email, password, **extra_fields)
 
     def create_superuser(self, username, email, password, **extra_fields):
+        print("password: ",password)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_admin', True)
         extra_fields.setdefault('is_staff', True)

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import FormView
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
@@ -34,10 +35,12 @@ def Logout(request):
     return HttpResponseRedirect(reverse_lazy('land'))
 
 
-class LoginFormView(FormView):
+class LoginFormView(FormView,SuccessMessageMixin):
     template_name = 'login.html'
     form_class = LoginForm
     success_url = '/events/'
+    #success_message = "%(username)s logged In"
+
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
@@ -51,11 +54,11 @@ class LoginFormView(FormView):
             return HttpResponseRedirect(self.success_url)
 
         else:
-            messages.add_message(self.request, messages.INFO, _('Wrong credentials\
-                    please try again'))
-            return HttpResponseRedirect(reverse_lazy('login'))
+            messages.add_message(self.request, messages.ERROR, _('Wrong credentials '
+                    +'please try again'))
+            #return HttpResponseRedirect(reverse_lazy('login'))
+            return render(self.request, 'login.html')
 
     def form_invalid(self, form):
-        print(form.errors)
         response = super().form_invalid(form)
         return response

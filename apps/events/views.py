@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model
-from django.views.generic import ListView, TemplateView
+from django.views.generic import View, ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 import datetime
@@ -11,11 +11,10 @@ from .models import Event, EventForm, Subscription, SubscriptionForm
 ANONYMOUS_PASSWORD = '111333555'
 
 
-class LandingView(TemplateView):
+class LandingView(View):
 
     def get(self, request):
         return HttpResponseRedirect('events/')
-
 
 class EventListView(ListView):
     template_name = 'event_list.html'

@@ -26,7 +26,7 @@
             {% if messages %}
                 {% for message in messages %}
                     {% if message.tags %}
-                    <div class="alert alert-primary" role="alert">
+                    <div class="alert alert-primary" role="alert" id="login_error">
                         {{ message }}
                     </div>
                     {% endif %}

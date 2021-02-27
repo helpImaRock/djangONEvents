@@ -8,14 +8,14 @@
       {% elif request.path  == "/accounts/signup" %}
         <div></div>
       {% else %}
-        <a href={% url 'login' %} >{% translate 'Sign In' %}</a>
-        <a href={% url 'signup' %} >{% translate 'Sign Up' %}</a>
+        <a id="sign_in" href={% url 'login' %} >{% translate 'Sign In' %}</a>
+        <a id="sign_up" href={% url 'signup' %} >{% translate 'Sign Up' %}</a>
       {% endif %}
 
       {% else %}
     <div class="d-flex">
       <div class="dropdown mr-2">
-        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="user_controls" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
           {{ user.username }}
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
