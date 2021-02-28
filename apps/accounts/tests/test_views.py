@@ -11,15 +11,15 @@ class UserRegistrationViewTest(TestCase):
         '''
             tests unsuccessful registration on view
         '''
-        response = self.client.post('/accounts/login',
+        response = self.client.post('/accounts/signup',
             data = {'username': 'awd',
                     'email': 'awfaw@awfawf.com',
-                    'password1': '1232341',
-                    'password2': '1232341'
+                    'password1': '1232341a',
+                    'password2': '1232341a'
                     }
         )
-        self.assertEquals(response.status_code,200)
-        print(response)
+        self.assertEquals(response.status_code,302)
+        self.assertEquals(response.url,'/events/')
 
     def tearDown(self):
         pass

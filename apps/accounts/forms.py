@@ -25,7 +25,7 @@ class SignUpForm(forms.ModelForm):
             {'placeholder': _('confirm password')}
         )
 
-    password1 = forms.CharField(label='Password', min_length=8, widget=forms.PasswordInput)
+    password1 = forms.CharField(label='password', min_length=8, widget=forms.PasswordInput)
     password2 = forms.CharField(
         label='Password confirmation', min_length=8, widget=forms.PasswordInput
     )

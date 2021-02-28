@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from apps.events.views import EventListView, EventSubscriptionView
-from apps.events.views import EventFormView, LandingView, SubscriptionFormView
+from apps.events.views import LandingView, EventCreateView, EventUpdateView, SubscriptionFormView
 from apps.accounts.views import SignUpFormView, LoginFormView, Logout
 
 urlpatterns = [
@@ -45,12 +45,16 @@ urlpatterns = [
     ),
     path(
         'events/new',
-        EventFormView.as_view(template_name='events/new.html'),
-        name="event-form"
+        EventCreateView.as_view(template_name='events/new.html'),
+        name="event-new"
     ),
     path(
         'events/<int:pk>',
         EventSubscriptionView.as_view(template_name='events/event.html'),
         name="event-detail"
+    ),
+    path('events/<int:pk>/edit',
+        EventUpdateView.as_view(template_name='events/event.html'),
+        name="event-update"
     ),
 ]

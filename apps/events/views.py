@@ -4,9 +4,11 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model
 from django.views.generic import View, ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 import datetime
-from .models import Event, EventForm, Subscription, SubscriptionForm
+from .models import Event, Subscription
+from .forms import EventForm, SubscriptionForm
+
 
 ANONYMOUS_PASSWORD = '111333555'
 
@@ -33,11 +35,17 @@ class EventDetailView(DetailView):
     def get_object(self):
         return super().get_object()
 
-
-class EventFormView(CreateView):
+class EventUpdateView(UpdateView):
     model = Event
     form_class = EventForm
-    template_name = 'new.html'
+    template_name = 'form.html'
+    success_url = '/events/'
+
+
+class EventCreateView(CreateView):
+    model = Event
+    form_class = EventForm
+    template_name = 'form.html'
     success_url = '/events/'
 
     def form_valid(self, form):
@@ -85,7 +93,7 @@ class SubscriptionFormView(CreateView):
 
 
 class EventSubscriptionView(EventDetailView, SubscriptionFormView):
-    model = EventFormView.model
+    model = EventCreateView.model
     form_class = SubscriptionForm
     event_instance = None
 

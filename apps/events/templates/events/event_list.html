@@ -5,12 +5,12 @@
   <div class="d-flex flex-column align-items-center ">
     <h1>{% translate 'Events' %}</h1>
     {% if event_list %}
-    <ul style="list-style: none;" class="col-8">
+    <ul style="list-style: none;" class="col-8" id="events-list">
       {% for event in event_list %}
         {% if user.is_authenticated %}
           {% if user.email == event.author.email %}
           <li class="p-2">
-            <div class="card"  id={{event.pk}}>
+            <div class="card"  id="event_{{event.pk}}">
               <a href="{{ event.get_absolute_url }}" style="position:absolute;width: 100%;height: 100%;"></a>
                   <div class="card-body">
                       <h5 class="card-title" style="text-decoration: underline;">{{event.title}}</h5>
@@ -36,7 +36,7 @@
           </li styles="underline:none">
           {% elif event.state != 'DF' %}
           <li class="p-2">
-            <div class="card"  id={{event.pk}}>
+            <div class="card"  id="event_{{event.pk}}">
               <a href="{{ event.get_absolute_url }}" style="position:absolute;width: 100%;height: 100%;"></a>
                   <div class="card-body">
                       <h5 class="card-title" style="text-decoration: underline;">{{event.title}}</h5>
@@ -64,7 +64,7 @@
           {% else %}
           {% if event.state == 'PU' %}
           <li class="p-2">
-            <div class="card"  id={{event.pk}}>
+            <div class="card"  id="event_{{event.pk}}">
               <a href="{{ event.get_absolute_url }}" style="position:absolute;width: 100%;height: 100%;"></a>
                   <div class="card-body">
                       <h5 class="card-title" style="text-decoration: underline;">{{event.title}}</h5>
@@ -97,7 +97,7 @@
     {% endif %}
     <div class="justify-content-end p-3">
       {% if user.is_authenticated %}
-      <a href={% url 'event-form' %} class="btn btn-primary">{% translate 'create event' %}</a>
+      <a href={% url 'event-new' %} class="btn btn-primary">{% translate 'create event' %}</a>
       {% endif %}
     </div>
   </div>

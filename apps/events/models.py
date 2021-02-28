@@ -4,7 +4,6 @@ from django.urls import reverse
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 import datetime
-from django.forms import NumberInput
 from apps.accounts.models import User
 
 
@@ -21,7 +20,7 @@ class Event(models.Model):
     description = models.TextField(
         "description", max_length=200, null=False, default=''
     )
-    date = models.DateField("date", null=False, default='')
+    date = models.DateField("date", null=False, default=datetime.date.today)
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -47,28 +46,9 @@ class Event(models.Model):
         return reverse('event-detail', args=[str(self.id)])
 
     def __str__(self):
-        return self.title + " " + str(self.date)
-
-
-class EventForm(forms.ModelForm):
-
-    date = forms.DateField(widget=NumberInput(attrs={'type': 'date'}))
-    state = forms.ChoiceField(choices=Event.StateChoices.choices)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['title'].widget.attrs.update({'class': 'form-control'})
-        self.fields['title'].widget.attrs.update({'placeholder': _('title')})
-        self.fields['description'].widget.attrs.update(
-            {'class': 'form-control'}
-        )
-        self.fields['description'].widget.attrs.update(
-            {'placeholder': _('description')}
-        )
-
-    class Meta:
-        model = Event
-        exclude = ['author']
+        return 'title: '+self.title + "\ndescription: " + str(self.description)\
+                + '\nauthor: ('+str(self.author)+ ')\ndate: ' +str(self.date)\
+                + '\state: '+self.state
 
 
 class Subscription(models.Model):
@@ -97,27 +77,3 @@ class Subscription(models.Model):
         return "event" + ": " + str(self.id) + "user" + ": " \
             + self.subscriber.username + "comment" \
             + ": " + str(self.comment)
-
-
-class SubscriptionForm(forms.ModelForm):
-
-    username = forms.CharField(label=_('username'), max_length=60)
-    email = forms.CharField(label=_('email'),)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs.update({'class': 'form-control'})
-        self.fields['username'].widget.attrs.update(
-            {'placeholder': _('username')}
-        )
-        self.fields['email'].widget.attrs.update({'class': 'form-control'})
-        self.fields['email'].widget.attrs.update({'placeholder': _('email')})
-        self.fields['comment'].widget.attrs.update({'class': 'form-control'})
-        self.fields['comment'].widget.attrs.update(
-            {'placeholder': _('comment')}
-        )
-
-    class Meta:
-        model = Subscription
-        exclude = ['event', 'date']
-        fields = ('comment', )
