@@ -30,7 +30,7 @@ _user: admin password: admin123p has access to admin/_
 
 -get latest geckodriver from https://github.com/mozilla/geckodriver/releases
 
--add it to PATH e
+-add it to PATH
 
 ### events app unittests ###
 ```bash
