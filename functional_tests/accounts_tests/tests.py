@@ -171,7 +171,6 @@ class LoginTestClass(LiveServerTestCase,unittest.TestCase):
         WebDriverWait(self.selenium, timeout).until(
             lambda driver: driver.find_element_by_id('user_controls')
         )
-        print("driver: ",driver)
         profile = self.selenium.find_element_by_id('user_controls')
         self.assertEquals(profile.text,username)
 

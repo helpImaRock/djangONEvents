@@ -93,6 +93,10 @@ class EventCreateView(CreateView):
     success_url = '/events/'
 
     def form_valid(self, form):
+        """
+            called if form is valid
+            process user signup
+        """
         self.object = form.save(commit=False)
         self.object.author = self.request.user
         self.object.save()

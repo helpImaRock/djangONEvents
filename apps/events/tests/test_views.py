@@ -99,7 +99,7 @@ class EvenListViewTest(TestCase):
         self.assertTemplateUsed(response,'events/event_list.html')
 
         for saved_event in self.events:
-            self.assertIn('<div class="card"  id="event_'+str(saved_event.pk)+'">',html)
+            self.assertIn('id="event_'+str(saved_event.pk)+'"',html)
         self.assertTrue(len(response.context['event_list'])==10)
 
         

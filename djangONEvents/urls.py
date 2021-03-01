@@ -19,7 +19,7 @@ from django.urls import path, include
 from apps.events.views import EventListView, EventDetailSubscriptionsView
 from apps.events.views import LandingView, EventCreateView, EventUpdateView
 from apps.events.views import SubscriptionDeleteView, SubscriptionCreateView, SubscriptionUpdateView 
-from apps.accounts.views import SignUpFormView, LoginFormView, Logout
+from apps.accounts.views import SignUpFormView, LoginFormView, LogoutView
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
@@ -36,8 +36,8 @@ urlpatterns = [
         name='signup'
     ),
     path(
-        'accounts/logout/',
-        Logout, name='logout'
+        'accounts/logout',
+        LogoutView.as_view(), name='logout'
     ),
     path(
         'events/',

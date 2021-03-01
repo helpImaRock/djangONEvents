@@ -56,6 +56,10 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    '''
+        User model inheriting from
+        AbstractBaseUser, PermissionsMixin
+    '''
 
     username = models.CharField('username', max_length=40,
                                 unique=True, blank=False)

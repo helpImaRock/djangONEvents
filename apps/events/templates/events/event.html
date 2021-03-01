@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
-
 {% if event %}
   {% if event.author == request.user %}
     {% if event.state == 'DF' %}  
