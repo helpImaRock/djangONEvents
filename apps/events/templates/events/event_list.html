@@ -14,26 +14,8 @@
                   <div class="card-body">
                       <h5 class="card-title" style="text-decoration: underline;">{{event.title}}</h5>
                   <div>
-                    {% if event.state == 'DF' %}
-                    <div class="alert alert-warning d-flex flex-row justify-content-md-between align-items-cente" role="alert">
-                      <div id='event_state'>{% translate 'Draft' %}</div>
-                      <div id='event_author'>{% translate 'Author:' %}{{event.author.username}}</div>
-                      <div id='event_date'>{% translate 'Date:' %}{{event.date}}</div>
-                    </div>
-            {% elif event.state == 'PU' %}
-            <div class="alert alert-success d-flex flex-row justify-content-md-between align-items-center" role="alert">
-              <div id='event_state'>{% translate 'Public' %}</div>
-              <div id='event_author'>{% translate 'Author:' %}{{event.author.username}}</div>
-              <div id='event_date'>{% translate 'Date:' %}{{event.date}}</div>
-            </div>
-            {% else %}
-            <div class="alert alert-info d-flex flex-row justify-content-md-between align-items-center" role="alert">
-              <div id='event_state'>{% translate 'Private' %}</div>
-              <div id='event_author'>{% translate 'Author:' %}{{event.author.username}}</div>
-              <div id='event_date'>{% translate 'Date:' %}{{event.date}}</div>
-            </div>
-            {% endif %}
-                </div>
+                    {% include "events/event_component.html" %}
+                  </div>
           </li styles="underline:none">
           {% elif event.state != 'DF' %}
           <li class="p-2">
@@ -41,57 +23,40 @@
               <a href="{{ event.get_absolute_url }}" style="position:absolute;width: 100%;height: 100%;"></a>
                   <div class="card-body">
                       <h5 class="card-title" style="text-decoration: underline;">{{event.title}}</h5>
-                      
                   <div>
-                </div>
+                
                 {% if event.state == 'DF' %}
-            <div class="alert alert-warning d-flex flex-row justify-content-md-between align-items-cente" role="alert">
-              <div id='event_state'>{% translate 'Draft' %}</div>
-              <div id='event_author'>{% translate 'Author:' %}{{event.author.username}}</div>
-              <div id='event_date'>{% translate 'Date:' %}{{event.date}}</div>
-            </div>
-            {% elif event.state == 'PU' %}
-            <div class="alert alert-success d-flex flex-row justify-content-md-between align-items-center" role="alert">
-              <div id='event_state'>{% translate 'Public' %}</div>
-              <div id='event_author'>{% translate 'Author:' %}{{event.author.username}}</div>
-              <div id='event_date'>{% translate 'Date:' %}{{event.date}}</div>
-            </div>
-            {% else %}
-            <div class="alert alert-info d-flex flex-row justify-content-md-between align-items-center" role="alert">
-              <div id='event_state'>{% translate 'Private' %}</div>
-              <div id='event_author'>{% translate 'Author:' %}{{event.author.username}}</div>
-              <div id='event_date'>{% translate 'Date:' %}{{event.date}}</div>
-            </div>
-            {% endif %}
+                <div class="alert alert-warning d-flex flex-row justify-content-md-between align-items-cente" role="alert">
+                  <div id='event_state'>{% translate 'Draft' %}</div>
+                  <div id='event_author'>{% translate 'Author:' %}{{event.author.username}}</div>
+                  <div id='event_date'>{% translate 'Date:' %}{{event.date}}</div>
+                </div>
+                {% elif event.state == 'PU' %}
+                <div class="alert alert-success d-flex flex-row justify-content-md-between align-items-center" role="alert">
+                  <div id='event_state'>{% translate 'Public' %}</div>
+                  <div id='event_author'>{% translate 'Author:' %}{{event.author.username}}</div>
+                  <div id='event_date'>{% translate 'Date:' %}{{event.date}}</div>
+                </div>
+                {% else %}
+                <div class="alert alert-info d-flex flex-row justify-content-md-between align-items-center" role="alert">
+                  <div id='event_state'>{% translate 'Private' %}</div>
+                  <div id='event_author'>{% translate 'Author:' %}{{event.author.username}}</div>
+                  <div id='event_date'>{% translate 'Date:' %}{{event.date}}</div>
+                </div>
+                {% endif %}
+              </div>
           </li styles="underline:none">
           {% endif %}
-          {% else %}
+        {% else %}
           {% if event.state == 'PU' %}
           <li class="p-2">
-            <div class="card"  id="event_{{event.pk}}">
+            <div class="card" id="event_{{event.pk}}">
               <a href="{{ event.get_absolute_url }}" style="position:absolute;width: 100%;height: 100%;"></a>
                   <div class="card-body">
                       <h5 class="card-title" style="text-decoration: underline;">{{event.title}}</h5>
                 </div>
-                {% if event.state == 'DF' %}
-            <div class="alert alert-warning d-flex flex-row justify-content-md-between align-items-cente" role="alert">
-              <div id='event_state'>{% translate 'Draft' %}</div>
-              <div id='event_author'>{% translate 'Author:' %}{{event.author.username}}</div>
-              <div id='event_date'>{% translate 'Date:' %}{{event.date}}</div>
+                {% include "events/event_component.html" %}
             </div>
-            {% elif event.state == 'PU' %}
-            <div class="alert alert-success d-flex flex-row justify-content-md-between align-items-center" role="alert">
-              <div id='event_state'>{% translate 'Public' %}</div>
-              <div id='event_author'>{% translate 'Author:' %}{{event.author.username}}</div>
-              <div id='event_date'>{% translate 'Date:' %}{{event.date}}</div>
-            </div>
-            {% else %}
-            <div class="alert alert-info d-flex flex-row justify-content-md-between align-items-center" role="alert">
-              <div id='event_state'>{% translate 'Private' %}</div>
-              <div id='event_author'>{% translate 'Author:' %}{{event.author.username}}</div>
-              <div id='event_date'>{% translate 'Date:' %}{{event.date}}</div>
-            </div>
-            {% endif %}
           </li styles="underline:none">
           {% endif %}
         {% endif %}

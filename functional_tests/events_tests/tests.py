@@ -5,6 +5,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.select import Select
+
 import time
 
 class UserEventCreationTest(LiveServerTestCase,unittest.TestCase):
@@ -28,14 +29,14 @@ class UserEventCreationTest(LiveServerTestCase,unittest.TestCase):
     def tearDown(self):
         self.selenium.quit()
 
-    def register_user(self):
+    def register_user(self,username,email):
         '''
             submits a POST request to accounts/signup wiht user data
             before running login with user data
         '''
         self.client.post('/accounts/signup',data={
-            'username': "my_user",
-            'email': "myuser@mydomain.com",
+            'username': username,
+            'email': email,
             'password1': "awdaw1234",
             'password2': "awdaw1234",
         })
@@ -102,7 +103,7 @@ class UserEventCreationTest(LiveServerTestCase,unittest.TestCase):
         timeout = 2
 
         ## register user wait 1 sec
-        self.register_user()
+        self.register_user("my_user","myuser@mydomain.com")
         time.sleep(1)
 
         ## login user wait 1 sec
@@ -145,5 +146,27 @@ class UserEventCreationTest(LiveServerTestCase,unittest.TestCase):
             # formatting
             #self.assertEqual(field_date.get_attribute('innerHTML'),'Date:'+self.event['date'])
 
+    def register_event(self):
+        Event
+
     def test_loggedIn_user_subscribes_to_events(self):
-        pass
+        '''
+            tests subscribing to event
+        '''
+
+        timeout = 2
+
+        ## register user wait 1 sec
+        self.register_user("my_user","myuser@mydomain.com")
+        time.sleep(1)
+        self.register_user("my_user1","myuser2@mydomain.com")
+        time.sleep(1)
+
+        ## login user wait 1 sec
+        self.navigateToLogin()
+
+        self.submitSignInForm("my_user","awdaw1234")
+
+        WebDriverWait(self.selenium, timeout).until(
+            lambda driver: driver.find_element_by_id('user_controls')
+        )
