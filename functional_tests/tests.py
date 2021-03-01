@@ -4,6 +4,7 @@ from django.contrib.staticfiles.testing import LiveServerTestCase
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 import time
+from apps.accounts.models import User
 
 host = 'http://localhost:8000'
 
@@ -20,9 +21,9 @@ class UserRegistrationTestClass(LiveServerTestCase):
         super().tearDownClass()
 
     def navigateToRegistration(self):
-        """
+        '''
             navigates to signup form root url
-        """
+        '''
          ## access website
         self.selenium.get('%s%s' % (host, '/'))
         registration_link = self.selenium.find_element_by_id('sign_up')
@@ -105,3 +106,6 @@ class NewUserRegistrationTestClass(UserRegistrationTestClass):
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
+        
+        ## no new user exists at this point in the queried db
+        ## yet db file contains this user

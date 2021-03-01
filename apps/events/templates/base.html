@@ -14,26 +14,29 @@
   {% block title %}<title>ONEvents</title>{% endblock %}
 </head>
 <body>
-  {% include "account.html" %}
-    <div class="container">
+  {% include "dashboard.html" %}
+    <div class="container" style="background-color:rgb(241, 243, 247); border-radius: 1rem; padding-top: 2rem; padding-bottom: 2rem;">
       {% block content %}
       {% endblock %}
     </div>
     <footer class="d-flex justify-content-end align-items-center" style="position: fixed; bottom:0; right:0;height:100px;width:300px;">
-        <form class="btn-group dropup pr-5" action="{% url 'set_language' %}" method="post">{% csrf_token %}
+        <form id='lang_form' class="btn-group dropup pr-5" action="{% url 'set_language' %}" method="post">{% csrf_token %}
           <input name="next" type="hidden" value="{{ redirect_to }}">
           <select name="language" >
-                {% get_current_language as LANGUAGE_CODE %}
                 {% get_available_languages as LANGUAGES %}
                 {% get_language_info_list for LANGUAGES as languages %}
                 {% for language in languages %}
-                    <option class="btn-sm dropdown-toggle" value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                        {{ language.name_local }} ({{ language.code }})
+                    <option class="btn-sm dropdown-toggle lang_choice" value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                        {{ language.name }} ({{ language.code }})
                     </option>
                 {% endfor %}
             </select>
-          <input type="submit" value={% translate 'Go' %}>
         </form>
     </footer>
+    <script>
+      $( ".lang_choice" ).click(function() {
+        $('#lang_form').submit()
+      });
+  </script>
 </body>
 </html>

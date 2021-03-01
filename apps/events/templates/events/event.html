@@ -24,7 +24,7 @@
           
         </div>
         {% if event.state == 'DF' %}
-          <div class="alert alert-success d-flex flex-row justify-content-md-between align-items-center" role="alert">
+          <div class="alert alert-warning d-flex flex-row justify-content-md-between align-items-center" role="alert">
             <div>{% translate 'Draft' %}</div>
             <div>{% translate 'by: ' %} {{event.author.username}}</div>
             <div>{{event.date}}</div>
@@ -36,7 +36,7 @@
             <div>{{event.date}}</div>
           </div>
           {% else %}
-          <div class="alert alert-success d-flex flex-row justify-content-md-between align-items-center" role="alert">
+          <div class="alert alert-info d-flex flex-row justify-content-md-between align-items-center" role="alert">
             <div>{% translate 'Private' %}</div>
             <div>{% translate 'by: ' %} {{event.author.username}}</div>
             <div>{{event.date}}</div>
@@ -65,12 +65,16 @@
         {% include "subscriptions/sub_list.html" %}
         {% else %}
         {% if subscription %}
-          <div class="alert alert-info" role="alert">
-            {% translate 'You are subscribed to this event' %}
+          <div class="d-flex flex-column align-items-center">
+            <div class="alert alert-info" role="alert">
+              {% translate 'You are subscribed to this event' %}
+            </div>
+            <div class="p-4">
+              <form action="{{event.id}}/sub/{{subscription.id }}/delete" method="post">{% csrf_token %}
+                <button type="submit" class="btn btn-primary" value="Submit">{% translate 'Unsubscribe Event' %}</button>
+              </form>
           </div>
-          <form action="{{event.id}}/sub/{{subscription.id }}/delete" method="post">
-            <button type="submit" class="btn btn-primary" value="Submit">{% translate 'Unsubscribe Event' %}</button>
-          </form>
+          </div>
         {% else %}
           {% include "subscriptions/sub_create.html" %}
         {% endif %}

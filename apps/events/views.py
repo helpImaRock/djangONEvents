@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.utils import timezone
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -13,9 +13,16 @@ from django.urls import reverse_lazy, reverse
 from .models import Event, Subscription
 from .forms import EventForm, SubscriptionForm
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
+ANONYMOUS_PASSWORD = settings.ANONYMOUS_PASSWORD
 
-ANONYMOUS_PASSWORD = '111333555'
+class ErrorPageNotFoundView(View):
+
+    root='/'
+
+    def __init__(self,request, *args, **argv):
+        return HttpResponseRedirect('/events/')
 
 
 class LandingView(View):
@@ -60,7 +67,14 @@ class EventCreateView(CreateView):
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
-
+class EventDeleteView(DeleteView):
+    '''
+        class for Event Deletion
+        update to send a confirmation message
+        implement delete() to limit deletes
+    '''
+    model = Event
+    success_url ="/"
 
 class SubscriptionListView(ListView):
     template_name = 'sub_list.html'
@@ -140,7 +154,13 @@ class SubscriptionCreateView(CreateView):
 
 
 class SubscriptionDeleteView(DeleteView):
-    pass
+    '''
+        class for Subscripiton Deletion
+        update to send a confirmation message
+        implement delete() from DeletionMixin
+    '''
+    model = Subscription
+    success_url ="/"
 
 class SubscriptionUpdateView(UpdateView):
     pass

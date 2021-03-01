@@ -30,8 +30,12 @@ class UserManager(BaseUserManager):
         return self._create_user(username, email, password, **extra_fields)
 
     def create_anonymous_user(self, username, email, **extra_fields):
+        '''
+            creates an anonymous user
+            with is_anon=True and is_active=False
+        '''
         extra_fields.setdefault('is_active',False)
-        extra_fields.setdefault('is_anon',False)
+        extra_fields.setdefault('is_anon',True)
         return self._create_user(username, email, password, **extra_fields)
     
     def create_user(self, username, email, **extra_fields):

@@ -19,7 +19,6 @@ class SignUpFormView(FormView):
         """ process user signup"""
         user = form.save(commit=False)
         b = user.save()
-        print("on form validation: ",b)
         a = login(self.request, user)
         if user is not None:
             return HttpResponseRedirect(self.success_url)

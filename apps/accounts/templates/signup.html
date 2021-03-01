@@ -35,7 +35,19 @@
         <button type="submit" class="btn btn-primary" value="Submit">{% translate 'Submit' %}</button>
         <a href={% url 'land' %} class="btn btn-primary">{% translate 'Cancel' %}</a>
         {% if form.errors %}
-        {{form.errors}}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-primary" role="alert" id="login_error">
+                    {{error}}
+                    {% if field.label_tag == '<label for="id_email">Email:</label>' %}
+                        <a id="sign_in" href={% url 'login' %} >{% translate 'Sign In' %}</a>
+                    {% elif field.label_tag == '<label for="id_username">Username:</label>' %}
+                        <a id="sign_in" href={% url 'login' %} >{% translate 'Sign In' %}</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        
         {% endif %}
     </form>
 </div>

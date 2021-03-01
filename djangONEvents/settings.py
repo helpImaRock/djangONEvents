@@ -141,3 +141,6 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+ANONYMOUS_PASSWORD = '111333555'

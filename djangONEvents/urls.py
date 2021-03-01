@@ -58,8 +58,8 @@ urlpatterns = [
         EventDetailSubscriptionsView.as_view(template_name='events/event.html'),
         name="event-detail"
     ),
-    path('events/<int:pk1>/sub/<int:pk2>/delete',
-        SubscriptionDeleteView.as_view(),
+    path('events/<int:id>/sub/<slug:pk>/delete',
+        SubscriptionDeleteView.as_view(template_name='subscriptions/sub_delete.html'),
         name="sub-delete"
     ),
     path('events/<int:pk1>/sub/create',
@@ -71,3 +71,5 @@ urlpatterns = [
         name="sub-update"
     ),
 ]
+
+handler404 = 'apps.events.views.ErrorPageNotFoundView'

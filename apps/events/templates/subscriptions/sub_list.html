@@ -1,15 +1,15 @@
 {% load i18n %}
 {% block content %}
 <div class="d-flex flex-column align-items-center"></div>
-  <h4>{% translate 'Subscriptions ' %}</h4>
+  <h4>{% translate 'Subscriptions' %}</h4>
   {% if subscriptions %}
   <ul class="list-group">
     {% for subscription in subscriptions %}
     <li class="list-group-item">
       <div class="d-flex flex-row justify-content-md-between">
-        <div>{{subscription.username}}</div>
-        <div>{{subscription.comment}}</div>
-        <div>{{subscription.date}}</div>
+        <div style="text-decoration: underline;">{{subscription.subscriber.username}}</div>
+        <div class="col-6 d-flex flex-row"><p class='text-muted'>comment:&nbsp;</p> &nbsp;{{subscription.comment}}</div>
+        <div class="col-4">{{subscription.date}}</div>
       </div>
     </li>
     {% endfor %}
