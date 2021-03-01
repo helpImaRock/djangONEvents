@@ -14,14 +14,11 @@ class NewUserRegistrationTestClass(LiveServerTestCase):
     '''
 
     def setUp(self):
-        #super().setUp()
         self.selenium = WebDriver()
 
     
     def tearDown(self):
         self.selenium.quit()
-        #super().tearDown()
-
 
     def navigateToRegistration(self):
         '''
@@ -66,8 +63,11 @@ class NewUserRegistrationTestClass(LiveServerTestCase):
         username = "my_user"
         email = "myuser@mydomain.com"
         password = "awdaw1234"
+
+        ## this register and then login the user
         self.submitSignUpForm(username,email,password)
 
+        ## wait for redirect login, locate dashboard user dropdown links
         WebDriverWait(self.selenium, timeout).until(
             lambda driver: driver.find_element_by_id('user_controls')
         )
@@ -79,22 +79,24 @@ class NewUserRegistrationTestClass(LiveServerTestCase):
         log_out_link = profile_logout.get_attribute('href')
         self.selenium.get(log_out_link)
 
+        ## wait for redirect, locate sign up link
         WebDriverWait(self.selenium, timeout).until(
             lambda driver: driver.find_element_by_id('sign_up')
         )
 
+        ## navigate to registration link again
         self.navigateToRegistration()
-
+        
+        ## retry signing up
         self.submitSignUpForm(username,email,password)
+        
+        ## wait for a sign up error
         WebDriverWait(self.selenium, timeout).until(
-            lambda driver: driver.find_element_by_id('login_error')
+            lambda driver: driver.find_element_by_id('login_error') # shoud have a different id
         )
         profile = self.selenium.find_element_by_id('login_error')
         self.assertEquals(profile.text,'User with this Username already exists. Sign In')
         
-        ## no new user exists at this point in the queried db
-        ## yet db file contains this user
-
 
 class LoginTestClass(LiveServerTestCase,unittest.TestCase):
 
@@ -105,12 +107,14 @@ class LoginTestClass(LiveServerTestCase,unittest.TestCase):
     '''
 
     def setUp(self):
-        #super().setUp()
-        
         self.selenium = WebDriver()
         self.register_user()
 
     def register_user(self):
+        '''
+            submits a POST request to accounts/signup wiht user data
+            before running login with user data
+        '''
         self.client.post('/accounts/signup',data={
             'username': "my_user",
             'email': "myuser@mydomain.com",
@@ -120,7 +124,6 @@ class LoginTestClass(LiveServerTestCase,unittest.TestCase):
 
     def tearDown(self):
         self.selenium.quit()
-        #super().tearDown()
 
     def navigateToLogin(self):
         '''
@@ -162,12 +165,13 @@ class LoginTestClass(LiveServerTestCase,unittest.TestCase):
         ## fill the form with valid data
         username = "my_user"
         password = "awdaw1234"
-        
         self.submitSignInForm(username,password)
 
+        ## wait for redirect, locate dashboard
         WebDriverWait(self.selenium, timeout).until(
             lambda driver: driver.find_element_by_id('user_controls')
         )
+        print("driver: ",driver)
         profile = self.selenium.find_element_by_id('user_controls')
         self.assertEquals(profile.text,username)
 
@@ -176,8 +180,9 @@ class LoginTestClass(LiveServerTestCase,unittest.TestCase):
         log_out_link = profile_logout.get_attribute('href')
         self.selenium.get(log_out_link)
 
+        ## wait redirect, locate sign in link
         WebDriverWait(self.selenium, timeout).until(
-            lambda driver: driver.find_element_by_id('sign_up')
+            lambda driver: driver.find_element_by_id('sign_in')
         )
 
 
@@ -187,9 +192,10 @@ class LoginTestClass(LiveServerTestCase,unittest.TestCase):
 
         self.navigateToLogin()
 
-        ## fill the form with valid data
+        ## fill the form with invalid data
         self.submitSignInForm(username,password)
 
+        ## wait for error message
         WebDriverWait(self.selenium, timeout).until(
             lambda driver: driver.find_element_by_id('login_error')
         )
@@ -199,6 +205,7 @@ class LoginTestClass(LiveServerTestCase,unittest.TestCase):
     def test_invalid_login_existing_regular_user(self):
         '''
             tests regular existing user valid login
+            expecting error
         '''
 
         username = "my_user"
@@ -210,6 +217,9 @@ class LoginTestClass(LiveServerTestCase,unittest.TestCase):
         '''
             tests regular existing user valid login
         '''
+        ## this probably isn't needed as check
+        ## on anonymous user possibly isn't done
+        ## revisit related code
         user = User(
             username='awdge',password='adwdawawdawd',
             email='awda@awdaw.com',is_anon=True,is_active=False

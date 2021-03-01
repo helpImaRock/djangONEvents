@@ -71,7 +71,7 @@
             </div>
             <div class="p-4">
               <form action="{{event.id}}/sub/{{subscription.id }}/delete" method="post">{% csrf_token %}
-                <button type="submit" class="btn btn-primary" value="Submit">{% translate 'Unsubscribe Event' %}</button>
+                <button id="event_button" type="submit" class="btn btn-primary" value="Submit">{% translate 'Unsubscribe Event' %}</button>
               </form>
           </div>
           </div>
