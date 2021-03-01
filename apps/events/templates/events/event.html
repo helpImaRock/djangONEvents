@@ -1,56 +1,84 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
-{% include "account.html" %}
 
-  <div class="d-flex flex-column align-items-center">
-    {% if event %}
-      <div class="card p-3" style="width: 45em;" id={{event.pk}}>
-            <h5 class="card-header">{{event.title}}</h5>
-            
-          <div class="card-body">
-            <div id ="description">
-              {{event.description}}
-            </div>
-            <div id="info" class="pt-5 d-flex flex-row text-muted justify-content-between">
-              <p>{% translate 'by:' %} {{event.author.username}}</p>
-              <p>{{event.date}}</p>
-            </div>
+{% if event %}
+  {% if event.author == request.user %}
+    {% if event.state == 'DF' %}  
+    <a href={% url 'event-update' event.id %}>{% translate 'update event' %}</a>
+    {% endif %}
+  {% endif %}
+<div class="d-flex flex-column align-items-center">
+  
+    <div class="card p-3" style="width: 45em;" id={{event.pk}}>
+          <h5 class="card-header">
+            <div class="d-flex justify-content-center">
+            {{event.title}}
           </div>
-          {% if event.state == 'DF' %}
-            <div class="alert alert-warning justify-content-md-between" role="alert">
-              {% translate 'Draft' %}
-            </div>
-            {% elif event.state == 'PU' %}
-            <div class="alert alert-success" role="alert">
-              {% translate 'Public' %}
-            </div>
-            {% else %}
-            <div class="alert alert-info" role="alert">
-              {% translate 'Private' %}
-            </div>
-            {% endif %}
+          </h5>
+        <div class="card-body">
+          <div id ="description">
+            <p class="text-muted">{% translate 'description:' %}</p>
+            <p>{{event.description}}</p>
+          </div>
           
-      </div>
-    
-      <div class="p-3">
-        
-        {% if event.author == request.user %}
-          {% include "subscriptions/subscription_list.html" %}
-        {% else %}
-          {% if subscribed %}
-            
-            <div class="alert alert-info" role="alert">
-              {% translate 'You are subscribed to this event' %}
-            </div>
+        </div>
+        {% if event.state == 'DF' %}
+          <div class="alert alert-success d-flex flex-row justify-content-md-between align-items-center" role="alert">
+            <div>{% translate 'Draft' %}</div>
+            <div>{% translate 'by: ' %} {{event.author.username}}</div>
+            <div>{{event.date}}</div>
+          </div>
+          {% elif event.state == 'PU' %}
+          <div class="alert alert-success d-flex flex-row justify-content-md-between align-items-center" role="alert">
+            <div>{% translate 'Public' %}</div>
+            <div>{% translate 'by: ' %} {{event.author.username}}</div>
+            <div>{{event.date}}</div>
+          </div>
           {% else %}
-            {% include "subscriptions/new.html" %}
+          <div class="alert alert-success d-flex flex-row justify-content-md-between align-items-center" role="alert">
+            <div>{% translate 'Private' %}</div>
+            <div>{% translate 'by: ' %} {{event.author.username}}</div>
+            <div>{{event.date}}</div>
+          </div>
           {% endif %}
-            
-        {% endif %}
         
-      </div>
-      {% endif %}
+    </div>
+    <div class="p-3">
       
-  </div>
+      {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+              <div class="alert alert-danger" role="alert">
+                {{ message }}
+              </div>
+            {% else %}
+              <div class="alert alert-info" role="alert">
+                {{ message }}
+              </div>
+            {% endif %}
+            {% endfor %}
+        </ul>
+      {% else %}
+      {% if event.author == request.user %}
+        {% include "subscriptions/sub_list.html" %}
+        {% else %}
+        {% if subscription %}
+          <div class="alert alert-info" role="alert">
+            {% translate 'You are subscribed to this event' %}
+          </div>
+          <form action="{{event.id}}/sub/{{subscription.id }}/delete" method="post">
+            <button type="submit" class="btn btn-primary" value="Submit">{% translate 'Unsubscribe Event' %}</button>
+          </form>
+        {% else %}
+          {% include "subscriptions/sub_create.html" %}
+        {% endif %}
+          
+      {% endif %}
+      {% endif %}
+    </div>
+    {% endif %}
+    
+</div>
 {% endblock %}

@@ -10,8 +10,7 @@ from apps.events.views import EventListView, EventDetailView, LandingView
 class LandingPageTest(TestCase):
 
     def test_resolving_view(self):
-        found = resolve('/')
-        self.assertEquals(found.url_name, 'land')
+        pass
 
     def test_correct_redirect(self):
         response = self.client.get('/')
@@ -106,3 +105,75 @@ class EvenListViewTest(TestCase):
         
     def tearDown(self):
         pass
+
+class EventDetailSubscriptionsViewTest(TestCase):
+
+    def setUp(self):
+        
+        self.event = {'title':"my event ",
+            'description':"some descritption will never"\
+            +"be able to convey a proper idea of"\
+            +" what will actually occur",
+            'state':'PU'}
+
+        self.user = {'username':'my_user',
+            'email':'myuser@awd.cm',
+            'password':'1223132123'
+        }
+
+
+    def tearDown(self):
+        pass
+
+    def test_subscribing_not_loggedin_registered(self):
+
+        '''
+            tests the creation of a subcription
+            if the user is registered
+            and doesn't have a subscription
+            on this event
+        '''
+
+        user = User(**self.user)
+        event = Event(author=user,**self.event)
+        user.save()
+        event.save()
+        ev = Event.objects.filter(title=self.event['title'])
+        response = self.client.post(
+                '/events/'+str(ev[0].id),
+                data={  'username': self.user['username'],
+                        'email': self.user['email'],
+                        'comment': 'some absurd comment'
+                })
+        sub = Subscription.objects.all()
+        self.assertEqual(len(sub),1)
+        self.assertTrue(response.url,'/events/'+str(ev[0].id))
+
+    def test_subscribing_not_loggedin_not_registered(self):
+        
+        '''
+            tests the creation of a subcription
+            if the user is not registered
+            checks if the anoynomous user creation
+            along with a subscription to this event
+        '''
+
+        user = User(**self.user)
+        event = Event(author=user,**self.event)
+        user.save()
+        event.save()
+        ev = Event.objects.filter(title=self.event['title'])
+        response = self.client.post(
+                '/events/'+str(ev[0].id),
+                data={  'username': 'new_user',
+                        'email': 'newuseremail@domain.com',
+                        'comment': 'some absurd comment'
+                })
+        users = User.objects.filter(username='new_user',email='newuseremail@domain.com')
+        self.assertEqual(len(users),1)
+        subs = Subscription.objects.all()
+        self.assertEqual(len(subs),1)
+        self.assertEqual(subs[0].subscriber, users[0])
+        self.assertEqual(subs[0].event.author, user)
+        self.assertTrue(response.url,'/events/'+str(ev[0].id))
+

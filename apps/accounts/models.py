@@ -4,6 +4,7 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
+from django.db.utils import IntegrityError
 
 # Create your models here.
 
@@ -18,7 +19,10 @@ class UserManager(BaseUserManager):
             raise ValueError(_('username must be set'))
         user = self.model(email=email, username=username, **extra_fields)
         user.set_password(password)
-        user.save(using=self._db)
+        try:
+            user.save(using=self._db)
+        except IntegrityError as err:
+            raise ValueError(_(str(err)))
         return user
 
     def create_regular_user(self, username, email, password, **extra_fields):

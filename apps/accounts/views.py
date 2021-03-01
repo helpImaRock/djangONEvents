@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import FormView
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
@@ -36,7 +35,7 @@ def Logout(request):
     return HttpResponseRedirect(reverse_lazy('land'))
 
 
-class LoginFormView(FormView,SuccessMessageMixin):
+class LoginFormView(FormView):
     template_name = 'login.html'
     form_class = LoginForm
     success_url = '/events/'

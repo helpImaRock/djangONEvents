@@ -2,7 +2,7 @@
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
 {% block content %}
-{% include "account.html" %}
+
 <div class="d-flex flex-column align-items-center pt-1">
     <h3>{% translate 'Sign Up' %}</h3>
     <form class="col-4" method="POST" action="signup">{% csrf_token %}

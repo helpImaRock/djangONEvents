@@ -1,9 +1,5 @@
-{% extends "base.html" %}
 {% load i18n %}
-{% block content %}
-{% include "account.html" %}
-<div class="d-flex flex-column align-items-center p-5">
-    <h3>{% translate 'Create Event' %}</h3>
+{% get_current_language as LANGUAGE_CODE %}
     <form action="" method="post">{% csrf_token %}
         {{ form.non_field_errors }}
         <div class="form-group">
@@ -37,5 +33,3 @@
         <button type="submit" value="Submit" class="btn btn-primary">{% translate 'Publish' %}</button>
         <a href={% url 'event-list' %} class="btn btn-primary">{% translate 'Cancel' %}</a>
     </form>
-</div>
-{% endblock %}

@@ -16,8 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from apps.events.views import EventListView, EventSubscriptionView
-from apps.events.views import LandingView, EventCreateView, EventUpdateView, SubscriptionFormView
+from apps.events.views import EventListView, EventDetailSubscriptionsView
+from apps.events.views import LandingView, EventCreateView, EventUpdateView
+from apps.events.views import SubscriptionDeleteView, SubscriptionCreateView, SubscriptionUpdateView 
 from apps.accounts.views import SignUpFormView, LoginFormView, Logout
 
 urlpatterns = [
@@ -44,17 +45,29 @@ urlpatterns = [
         name="event-list"
     ),
     path(
-        'events/new',
-        EventCreateView.as_view(template_name='events/new.html'),
-        name="event-new"
+        'events/create',
+        EventCreateView.as_view(template_name='events/event_create.html'),
+        name="event-create"
+    ),
+    path('events/<int:pk>/update',
+        EventUpdateView.as_view(template_name='events/event_update.html'),
+        name="event-update"
     ),
     path(
         'events/<int:pk>',
-        EventSubscriptionView.as_view(template_name='events/event.html'),
+        EventDetailSubscriptionsView.as_view(template_name='events/event.html'),
         name="event-detail"
     ),
-    path('events/<int:pk>/edit',
-        EventUpdateView.as_view(template_name='events/event.html'),
-        name="event-update"
+    path('events/<int:pk1>/sub/<int:pk2>/delete',
+        SubscriptionDeleteView.as_view(),
+        name="sub-delete"
+    ),
+    path('events/<int:pk1>/sub/create',
+        SubscriptionCreateView.as_view(),
+        name="sub-create"
+    ),
+    path('events/<int:pk1>/sub/<int:pk2>/update',
+        SubscriptionUpdateView.as_view(),
+        name="sub-update"
     ),
 ]

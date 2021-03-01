@@ -46,7 +46,7 @@ class Event(models.Model):
         return reverse('event-detail', args=[str(self.id)])
 
     def __str__(self):
-        return 'title: '+self.title + "\ndescription: " + str(self.description)\
+        return 'id: '+str(self.id)+' title: '+self.title + "\ndescription: " + str(self.description)\
                 + '\nauthor: ('+str(self.author)+ ')\ndate: ' +str(self.date)\
                 + '\state: '+self.state
 
@@ -66,14 +66,10 @@ class Subscription(models.Model):
         "date", default=datetime.date.today
     )
 
-    def __str__(self):
-        return self.id + " "+self.username + " " + self.comment
-
     class Meta:
         db_table = "subscriptions"
         ordering = ['date']
 
     def __str__(self):
-        return "event" + ": " + str(self.id) + "user" + ": " \
-            + self.subscriber.username + "comment" \
-            + ": " + str(self.comment)
+        return "event: " + str(self.event) + "\ncomment: "\
+            + str(self.comment) +" "+str(self.subscriber)

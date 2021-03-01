@@ -9,6 +9,7 @@ class EventForm(forms.ModelForm):
     state = forms.ChoiceField(choices=Event.StateChoices.choices)
 
     def __init__(self, *args, **kwargs):
+        
         super().__init__(*args, **kwargs)
         self.fields['title'].widget.attrs.update({'class': 'form-control'})
         self.fields['title'].widget.attrs.update({'placeholder': _('title')})
@@ -18,6 +19,12 @@ class EventForm(forms.ModelForm):
         self.fields['description'].widget.attrs.update(
             {'placeholder': _('description')}
         )
+        if kwargs['instance'] != None:
+            self.fields['title'].widget.attrs.update({'placeholder': _('title')})
+            self.fields['title'].widget.attrs.update({'placeholder': _('description')})
+            self.fields['title'].widget.attrs.update({'placeholder': _('date')})
+            self.fields['title'].widget.attrs.update({'placeholder': _('state')})
+
 
     class Meta:
         model = Event

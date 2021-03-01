@@ -1,0 +1,7 @@
+{% load i18n %}
+{% block content %}
+<div class="d-flex flex-column align-items-center">
+    <h4>{% translate 'Subscribe' %}</h1>
+        {% include "subscriptions/sub_form.html" %}
+</div>
+{% endblock %}

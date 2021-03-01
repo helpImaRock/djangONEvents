@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="d-flex flex-column align-items-center p-5">
+    <h3>{% translate 'Update Event' %}</h3>
+    {% include "events/event_form.html" %}
+</div>
+{% endblock %}

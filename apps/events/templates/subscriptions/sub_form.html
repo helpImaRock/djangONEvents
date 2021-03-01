@@ -1,0 +1,36 @@
+{% load i18n %}
+
+<form action="" method="post" class="py-3">{% csrf_token %}
+    <div class="form-group">
+        <div class="fieldWrapper">
+            {{ form.username.errors }}
+            <label for="{{ form.username.id_for_label }}">{% translate 'username' %}</label>
+            {% if user.is_authenticated %}
+            <input id="id_username" class="form-control" type="text" name="username"
+                maxlength="60" value='{{user.username}}' readonly>
+            {% else %}
+                {{ form.username }}
+            {% endif %}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="fieldWrapper">
+            {{ form.email.errors }}
+            <label for="{{ form.email.id_for_label }}">{% translate 'email' %}</label>
+            {% if user.is_authenticated %}
+            <input id="id_email" class="form-control" type="text" name="email"
+                maxlength="60" value='{{user.email}}' readonly>
+            {% else %}
+                {{ form.email }}
+            {% endif %}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="fieldWrapper">
+            {{ form.comment.errors }}
+            <label for="{{ form.comment.id_for_label }}">{% translate 'comment' %}</label>
+            {{ form.comment }}
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" value="Submit">{% translate 'Submit' %}</button>
+</form>

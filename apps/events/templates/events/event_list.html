@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
-{% include "account.html" %}
   <div class="d-flex flex-column align-items-center ">
     <h1>{% translate 'Events' %}</h1>
     {% if event_list %}
@@ -97,7 +96,7 @@
     {% endif %}
     <div class="justify-content-end p-3">
       {% if user.is_authenticated %}
-      <a href={% url 'event-new' %} class="btn btn-primary">{% translate 'create event' %}</a>
+      <a href={% url 'event-create' %} class="btn btn-primary">{% translate 'create event' %}</a>
       {% endif %}
     </div>
   </div>
