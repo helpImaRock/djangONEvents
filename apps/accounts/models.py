@@ -5,6 +5,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
 from django.db.utils import IntegrityError
+from django.conf import settings
 
 # Create your models here.
 
@@ -36,6 +37,7 @@ class UserManager(BaseUserManager):
         '''
         extra_fields.setdefault('is_active',False)
         extra_fields.setdefault('is_anon',True)
+        user.set_password(sertings.ANONYMOUS_PASSWORD)
         return self._create_user(username, email, password, **extra_fields)
     
     def create_user(self, username, email, **extra_fields):
