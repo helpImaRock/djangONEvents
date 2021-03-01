@@ -199,6 +199,7 @@ class LoginTestClass(LiveServerTestCase,unittest.TestCase):
         WebDriverWait(self.selenium, timeout).until(
             lambda driver: driver.find_element_by_id('login_error')
         )
+        ## checks login_error message
         login_error = self.selenium.find_element_by_id('login_error')
         self.assertEquals(login_error.text,'Wrong credentials please try again')
 
@@ -218,7 +219,7 @@ class LoginTestClass(LiveServerTestCase,unittest.TestCase):
             tests regular existing user valid login
         '''
         ## this probably isn't needed as check
-        ## on anonymous user possibly isn't done
+        ## on anonymous user might not be done
         ## revisit related code
         user = User(
             username='awdge',password='adwdawawdawd',
