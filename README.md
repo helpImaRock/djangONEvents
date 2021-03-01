@@ -28,6 +28,10 @@ _user: admin password: admin123p has access to admin/_
 
 ## How to test ##
 
+-get latest geckodriver from https://github.com/mozilla/geckodriver/releases
+
+-add it to PATH e
+
 ### events app unittests ###
 ```bash
 python manage.py test --keepdb apps.events
