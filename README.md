@@ -28,22 +28,22 @@ _user: admin password: admin123p has access to admin/_
 
 ## How to test ##
 
-# events app unittests
+### events app unittests ###
 ```bash
 python manage.py test --keepdb apps.events
 ```
 
-# accounts app unittests
+### accounts app unittests ###
 ```bash
 python manage.py test --keepdb apps.accounts
 ```
 
-# functional tests
+### functional tests ###
 ```bash
 python manage.py test --keepdb functional_tests
 ```
 
-# all tests at once
+### all tests at once ###
 ```bash
 python manage.py test --keepdb
 ```
