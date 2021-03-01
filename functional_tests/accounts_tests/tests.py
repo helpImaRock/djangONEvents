@@ -6,76 +6,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 import time
 from apps.accounts.models import User
 
-host = 'http://localhost:8000'
-
-class UserRegistrationTestClass(LiveServerTestCase):
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.selenium = WebDriver()
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.selenium.quit()
-        super().tearDownClass()
-
-    def navigateToRegistration(self):
-        '''
-            navigates to signup form root url
-        '''
-         ## access website
-        self.selenium.get('%s%s' % (host, '/'))
-        registration_link = self.selenium.find_element_by_id('sign_up')
-        
-        ## navigate to registration page
-        sign_up_link = registration_link.get_attribute('href')
-        self.selenium.get(sign_up_link)
-
-    def submitSignUpForm(self,username,email,password):
-        '''
-            submits data to sign up form
-        '''
-        ## find and fill input fields
-        user_name_field = self.selenium.find_element_by_id('id_username')
-        user_name_field.send_keys(username)
-        email_field = self.selenium.find_element_by_id('id_email')
-        email_field.send_keys(email)
-        password1_field = self.selenium.find_element_by_id('id_password1')
-        password1_field.send_keys(password)
-        password2_field = self.selenium.find_element_by_id('id_password2')
-        password2_field.send_keys(password)
-
-        ## click the submit button
-        submit_button = self.selenium.find_element_by_tag_name('button')
-        submit_button.click()
-
-"""
-class ExistingRegistrationTestClass(UserRegistrationTestClass):
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-
-    @classmethod
-    def tearDownClass(cls):
-        super().tearDownClass()
-
-    def testExistingUserSignUp(self):
-        '''
-            Testing unsuccessful new user creation
-        '''
-
-        self.navigateToRegistration()
-
-        ## fill the form with valid data
-        username = "my_user"
-        email = "myuser@mydomain.com"
-        password = "awdaw1234"
-        self.submitSignUpForm(username,email,password)
-
-        self.sleep(1)
-"""
 
 class NewUserRegistrationTestClass(LiveServerTestCase):
     '''
@@ -83,23 +13,23 @@ class NewUserRegistrationTestClass(LiveServerTestCase):
         signIn, signUp
     '''
 
-    @classmethod
-    def setUpClass(cls):
-        #super().setUpClass()
-        cls.selenium = WebDriver()
+    def setUp(self):
+        #super().setUp()
+        self.selenium = WebDriver()
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.selenium.quit()
-        #super().tearDownClass()
+    
+    def tearDown(self):
+        self.selenium.quit()
+        #super().tearDown()
 
 
     def navigateToRegistration(self):
         '''
             navigates to signup form root url
         '''
-         ## access website
-        self.selenium.get('%s%s' % (host, '/'))
+
+        ## access website
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
         registration_link = self.selenium.find_element_by_id('sign_up')
         
         ## navigate to registration page
@@ -166,7 +96,7 @@ class NewUserRegistrationTestClass(LiveServerTestCase):
         ## yet db file contains this user
 
 
-class LoginTestClass(LiveServerTestCase):
+class LoginTestClass(LiveServerTestCase,unittest.TestCase):
 
     '''
         tests logging in in existing users, regular and
@@ -174,31 +104,35 @@ class LoginTestClass(LiveServerTestCase):
         and non existing users
     '''
 
-    @classmethod
-    def setUpClass(cls):
-        #super().setUpClass()
-        cls.selenium = WebDriver()
+    def setUp(self):
+        #super().setUp()
+        
+        self.selenium = WebDriver()
+        self.register_user()
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.selenium.quit()
-        #super().tearDownClass()
+    def register_user(self):
+        self.client.post('/accounts/signup',data={
+            'username': "my_user",
+            'email': "myuser@mydomain.com",
+            'password1': "awdaw1234",
+            'password2': "awdaw1234",
+        })
+
+    def tearDown(self):
+        self.selenium.quit()
+        #super().tearDown()
 
     def navigateToLogin(self):
         '''
             navigates to signup form root url
         '''
          ## access website
-        self.selenium.get('%s%s' % (host, '/'))
-        registration_link = self.selenium.find_element_by_id('sign_in')
+        self.selenium.get('%s%s' % (self.live_server_url, '/'))
+        login_link = self.selenium.find_element_by_id('sign_in')
         
         ## navigate to login page
-        sign_in_link = registration_link.get_attribute('href')
+        sign_in_link = login_link.get_attribute('href')
         self.selenium.get(sign_in_link)
-
-        username = "my_user"
-        email = "myuser@mydomain.com"
-        password = "awdaw1234"
 
     
     def submitSignInForm(self,username,password):
@@ -212,8 +146,9 @@ class LoginTestClass(LiveServerTestCase):
         password_field.send_keys(password)
 
         ## click the submit button
-        submit_button = self.selenium.find_element_by_tag_name('button')
-        submit_button.click()
+        submit_form = self.selenium.find_element_by_tag_name('form')
+        submit_form.submit()
+        
 
 
     def test_valid_login_logout_existing_regular_user(self):
@@ -227,6 +162,7 @@ class LoginTestClass(LiveServerTestCase):
         ## fill the form with valid data
         username = "my_user"
         password = "awdaw1234"
+        
         self.submitSignInForm(username,password)
 
         WebDriverWait(self.selenium, timeout).until(
