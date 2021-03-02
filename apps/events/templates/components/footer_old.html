@@ -19,3 +19,51 @@
       });
   </script>
 </footer>
+
+
+
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+<footer class="footer mt-auto pb-3 pr-3" id="language_selector" style="position: fixed; bottom:0; right:0;width: auto;">
+  <div class="container">
+    <form id='lang_form' class="btn-group dropup pr-5" action="{% url 'set_language' %}" method="post">{% csrf_token %}
+      <input id='form_input' name="next" type="hidden" value="{{ redirect_to }}">
+      <div class="btn-group dropup">
+        <div type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="{% static 'assets/globe.svg' %}" style="width: 35px;" />
+          <span>{{LANGUAGE_CODE}}</span>
+        </div>
+        <div class="dropdown-menu">
+          {% get_available_languages as LANGUAGES %}
+              {% get_language_info_list for LANGUAGES as languages %}
+              {% for language in languages %}
+                  <a class="dropdown-item lang_choice" href="#" value="{{ language.code }}" aria-disabled="true">
+                    <span>{{ language.name }} ({{ language.code }})</span>
+                  </a>
+              {% endfor %}
+          
+        </div>
+      </div>
+      <script>
+        $( ".lang_choice" ).click(function() {
+          console.log($( ".lang_choice" ).val());
+          $(this).each(function() {
+            $.each(this.attributes, function() {
+              // this.attributes is not a plain object, but an array
+              // of attribute nodes, which contain both the name and value
+              if(this.specified) {
+                if(this.name == 'value'){
+                  $('#form_submit').value = this.value;
+                  $('#lang_form').submit();
+                }
+                console.log(this.name, this.value);
+              }
+            });
+          });
+          $('#lang_form').submit()
+        });
+      </script>
+    </form> 
+  </div>
+</footer>
