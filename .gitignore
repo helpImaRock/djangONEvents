@@ -4,5 +4,7 @@ venv/
 .vscode/
 *.pyc
 
+*.zip
+.coverage
 db.sqlite3
 geckodriver.log
