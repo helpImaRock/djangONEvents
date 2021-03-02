@@ -1,34 +1,34 @@
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
-<div class="d-flex flex-row-reverse justify-content-sm-between">
-  <div class="d-flex align-items-center justify-content-sm-between p-4 col-2" style="text-decoration: underline;">
-    {% if not user.is_authenticated %}
-    {% if request.path  == "/accounts/login" %}
-      <div class='py-2'></div>
-      {% elif request.path  == "/accounts/signup" %}
-        <div class='py-2'></div>
-      {% else %}
-        <a id="sign_in" href={% url 'login' %} >{% translate 'Sign In' %}</a>
-        <a id="sign_up" href={% url 'signup' %} >{% translate 'Sign Up' %}</a>
-      {% endif %}
-
-    {% else %}
-    <div class="d-flex">
-      <div class="dropdown mr-2">
-        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" 
-                id="user_controls" data-toggle="dropdown" aria-haspopup="true" 
-                aria-expanded="false" data-reference="parent" style="min-width: 8em;">
-          {{ user.username }}
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-          <a class="dropdown-item" id='user_logout' href={% url 'logout' %}>{% translate 'Logout' %}</a>
-        </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" id='home' href={% url 'land' %}>{% translate 'Events' %}</a>
+  {% if not user.is_authenticated %}
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_toggler_links" aria-controls="navbar_toggler_links" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbar_toggler_links">
+    <div class="navbar-nav mr-auto mt-2 mt-lg-0">
+    </div>
+    <div class="navbar-nav">
+      <div class="nav-item">
+        <a class="nav-link" id="sign_up" href={% url 'signup' %}>{% translate 'Sign Up' %}</a>
+      </div>
+      <div class="nav-item">
+        <a class="nav-link" id="sign_in" href={% url 'login' %}>{% translate 'Sign In' %}</a>
       </div>
     </div>
-    {% endif %}
   </div>
-  <div class="d-flex align-items-center col-2 pl-4">
-        <a id='home' href={% url 'land' %}>{% translate 'Events' %}</a>
+  {% else %}
+  <div class="btn-group">
+    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {{ user.username }}
+    </button>
+    <div class="dropdown-menu dropdown-menu-right">
+      <a class="dropdown-item disabled" href="#">Disabled link1</a>
+      <a class="dropdown-item disabled" href="#">Disabled link2</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" id='user_logout' href={% url 'logout' %}>{% translate 'Logout' %}</a>
+    </div>
   </div>
-</div>
-<div class="py-2"></div>
+  {% endif %}
+</nav>

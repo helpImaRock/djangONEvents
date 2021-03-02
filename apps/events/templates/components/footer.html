@@ -1,0 +1,10 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<footer class="d-flex justify-content-end align-items-center" style="border: 1px solid black;">
+    
+    <script>
+      $( ".lang_choice" ).click(function() {
+        $('#lang_form').submit()
+      });
+  </script>
+</footer>

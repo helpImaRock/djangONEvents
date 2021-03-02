@@ -3,7 +3,7 @@
 {% get_current_language as LANGUAGE_CODE %}
 {% block content %}
 
-<div class="d-flex flex-column align-items-center pt-2">
+<div class="d-flex flex-column align-items-center flex-wrap">
     <h3>{% translate 'Sign In' %}</h3>
     <form class="col-4" method="post" action="login">{% csrf_token %}
         {{ form.non_field_errors }}
