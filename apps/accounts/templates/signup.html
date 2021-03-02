@@ -4,8 +4,8 @@
 {% block content %}
 
 <div class="d-flex flex-column align-items-center pt-1">
-    <h3>{% translate 'Sign Up' %}</h3>
-    <form class="col-4" method="POST" action="signup">{% csrf_token %}
+    <h3 class="p-4">{% translate 'Sign Up' %}</h3>
+    <form class="" method="POST" action="signup">{% csrf_token %}
         
         {{ form.non_field_errors }}
         <div class="form-group">
@@ -33,11 +33,10 @@
             </div>
         </div>
         <button type="submit" class="btn btn-primary" value="Submit">{% translate 'Submit' %}</button>
-        <a href={% url 'land' %} class="btn btn-primary">{% translate 'Cancel' %}</a>
         {% if form.errors %}
         {% for field in form %}
             {% for error in field.errors %}
-                <div class="alert alert-primary" role="alert" id="login_error">
+                <div class="alert alert-danger mt-4 " role="alert" id="login_error">
                     {{error}}
                     {% if field.label_tag == '<label for="id_email">Email:</label>' %}
                         <a id="sign_in" href={% url 'login' %} >{% translate 'Sign In' %}</a>
