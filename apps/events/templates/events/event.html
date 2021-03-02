@@ -2,26 +2,23 @@
 {% load i18n %}
 {% block content %}
 {% if event %}
-  {% if event.author == request.user %}
-    {% if event.state == 'DF' %}  
-    <a href={% url 'event-update' event.id %}>{% translate 'update event' %}</a>
-    {% endif %}
-  {% endif %}
-<div class="d-flex flex-column align-items-center">
   
-    <div class="card p-3" style="width: 45em;" id={{event.pk}}>
-          <h5 class="card-header">
-            <div class="d-flex justify-content-center">
-            {{event.title}}
-          </div>
-          </h5>
-        <div class="card-body">
-          <div id ="description">
-            <p class="text-muted">{% translate 'description:' %}</p>
-            <p>{{event.description}}</p>
-          </div>
-          
-        </div>
+<div class="d-flex flex-column align-items-center py-3 mt-3">
+    {% if event.author == request.user %}
+      {% if event.state == 'DF' %}  
+        <a href={% url 'event-update' event.id %}>{% translate 'update event' %}</a>
+      {% endif %}
+    {% endif %}
+    <div class="card" id={{event.pk}}>
+      <h3 class="card-title">
+        {{event.title}}
+      </h3>
+      <div class="card-body">
+        <div id ="description">
+          <p class="text-muted">{% translate 'description:' %}</p>
+          <p>{{event.description}}</p>
+        </div>    
+      </div>
         {% if event.state == 'DF' %}
           <div class="alert alert-warning d-flex flex-row justify-content-md-between align-items-center" role="alert">
             <div>{% translate 'Draft' %}</div>

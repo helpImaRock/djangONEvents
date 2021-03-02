@@ -102,6 +102,23 @@ class LoginForm(forms.Form):
             {'placeholder': _('password')}
         )
 
+    def clean_password(self):
+        password = self.cleaned_data.get("password")
+        if len(password) <8:
+             raise ValidationError(
+                    _("Password too small must have at least 8 characters"), code='invalid'
+                )
+        return password
+
+    ## checks on email field formatting
+    ## raises error up to form if wrong formatt
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if email:
+            if re.search(r'\b[a-z0-9]+@[a-z0-9]+.[a-z]{2,5}\b', email) is None:
+                raise ValidationError(_("Invalid email"), code='invalid')
+        return email
+
     class Meta:
         model = get_user_model()
         fields = ('username', 'password') # form required fields
