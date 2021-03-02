@@ -1,6 +1,6 @@
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
-<footer class="d-flex justify-content-end align-items-center" style="position: fixed; bottom:0; right:0;width: auto;">
+<footer class="d-flex justify-content-end align-items-center" style="bottom:0; right:0;width: auto;">
     <form id='lang_form' class="btn-group dropup pr-3 pb-3" action="{% url 'set_language' %}" method="post">{% csrf_token %}
       <input name="next" type="hidden" value="{{ redirect_to }}">
       <select name="language" >
