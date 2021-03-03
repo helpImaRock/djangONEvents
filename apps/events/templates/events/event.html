@@ -9,36 +9,19 @@
         <a href={% url 'event-update' event.id %}>{% translate 'update event' %}</a>
       {% endif %}
     {% endif %}
-    <div class="card" id={{event.pk}}>
-      <h3 class="card-title">
-        {{event.title}}
-      </h3>
+    <div class="card w-75" id={{event.pk}}>
       <div class="card-body">
-        <div id ="description">
-          <p class="text-muted">{% translate 'description:' %}</p>
-          <p>{{event.description}}</p>
-        </div>    
+        <h3 class="card-title">
+          <p><u>{{event.title}}</u></p>
+        </h3>
+        <blockquote class="blockquote mt-3"></blockquote>
+          <div id ="description">
+              <p class="lead">{{event.description}}</p>
+          </div>
+        </blockquote>
       </div>
-        {% if event.state == 'DF' %}
-          <div class="alert alert-warning d-flex flex-row justify-content-md-between align-items-center" role="alert">
-            <div>{% translate 'Draft' %}</div>
-            <div>{% translate 'by: ' %} {{event.author.username}}</div>
-            <div>{{event.date}}</div>
-          </div>
-          {% elif event.state == 'PU' %}
-          <div class="alert alert-success d-flex flex-row justify-content-md-between align-items-center" role="alert">
-            <div>{% translate 'Public' %}</div>
-            <div>{% translate 'by: ' %} {{event.author.username}}</div>
-            <div>{{event.date}}</div>
-          </div>
-          {% else %}
-          <div class="alert alert-info d-flex flex-row justify-content-md-between align-items-center" role="alert">
-            <div>{% translate 'Private' %}</div>
-            <div>{% translate 'by: ' %} {{event.author.username}}</div>
-            <div>{{event.date}}</div>
-          </div>
-          {% endif %}
-        
+      
+      {% include "events/components/event_detail.html" %}
     </div>
     <div class="p-3">
       
@@ -58,7 +41,10 @@
         </ul>
       {% else %}
       {% if event.author == request.user %}
+      <div class="container p-4">
+        <h4 class="p-4">{% translate 'Subscriptions' %}</h4>
         {% include "subscriptions/sub_list.html" %}
+      </div>
         {% else %}
         {% if subscription %}
           <div class="d-flex flex-column align-items-center">

@@ -14,7 +14,7 @@
                   <div class="card-body">
                       <h5 class="card-title" style="text-decoration: underline;">{{event.title}}</h5>
                   <div>
-                    {% include "events/event_component.html" %}
+                    {% include "events/components/event_detail.html" %}
                   </div>
           </li styles="underline:none">
           {% elif event.state != 'DF' %}
@@ -24,26 +24,9 @@
                   <div class="card-body">
                       <h5 class="card-title" style="text-decoration: underline;">{{event.title}}</h5>
                   <div>
-                
-                {% if event.state == 'DF' %}
-                <div class="alert alert-warning d-flex flex-row justify-content-md-between align-items-cente" role="alert">
-                  <div id='event_state'>{% translate 'Draft' %}</div>
-                  <div id='event_author'>{% translate 'Author:' %}{{event.author.username}}</div>
-                  <div id='event_date'>{% translate 'Date:' %}{{event.date}}</div>
+                <div>
+                  {% include "events/components/event_detail.html" %}
                 </div>
-                {% elif event.state == 'PU' %}
-                <div class="alert alert-success d-flex flex-row justify-content-md-between align-items-center" role="alert">
-                  <div id='event_state'>{% translate 'Public' %}</div>
-                  <div id='event_author'>{% translate 'Author:' %}{{event.author.username}}</div>
-                  <div id='event_date'>{% translate 'Date:' %}{{event.date}}</div>
-                </div>
-                {% else %}
-                <div class="alert alert-info d-flex flex-row justify-content-md-between align-items-center" role="alert">
-                  <div id='event_state'>{% translate 'Private' %}</div>
-                  <div id='event_author'>{% translate 'Author:' %}{{event.author.username}}</div>
-                  <div id='event_date'>{% translate 'Date:' %}{{event.date}}</div>
-                </div>
-                {% endif %}
               </div>
           </li styles="underline:none">
           {% endif %}
@@ -55,7 +38,7 @@
                   <div class="card-body">
                       <h5 class="card-title" style="text-decoration: underline;">{{event.title}}</h5>
                 </div>
-                {% include "events/event_component.html" %}
+                {% include "events/components/event_detail.html" %}
             </div>
           </li styles="underline:none">
           {% endif %}

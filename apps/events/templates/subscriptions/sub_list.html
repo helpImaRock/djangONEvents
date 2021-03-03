@@ -1,21 +1,29 @@
 {% load i18n %}
-{% block content %}
-<div class="d-flex flex-column align-items-center"></div>
-  <h4>{% translate 'Subscriptions' %}</h4>
-  {% if subscriptions %}
-  <ul class="list-group">
-    {% for subscription in subscriptions %}
-    <li class="list-group-item">
-      <div class="d-flex flex-row justify-content-md-between">
-        <div style="text-decoration: underline;">{{subscription.subscriber.username}}</div>
-        <div class="col-6 d-flex flex-row"><p class='text-muted'>comment:&nbsp;</p> &nbsp;{{subscription.comment}}</div>
-        <div class="col-4">{{subscription.date}}</div>
-      </div>
-    </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-    <p>{% translate 'There are no subscriptions registered' %}</p>
-  {% endif %}
+
+
+{% if subscriptions %}
+<div id="accordion">
+{% for subscription in subscriptions %}
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link w-100" data-toggle="collapse" data-target="#collapse_sub_{{ subscription.id }}" aria-expanded="true" aria-controls="collapse_sub_{{ subscription.id }}">
+          <div class="d-flex flex-row justify-content-md-between">
+            <p class="pl-4">{{subscription.subscriber.username}}</p>
+            
+            <p class="pr-4">{{subscription.date}}</p>
+          </div>
+        </button>
+      </h5>
+    </div>
+  </div>
+  <div id="collapse_sub_{{ subscription.id }}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+    <div class="card-body">
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+    </div>
+  </div>
+  {% endfor %}
 </div>
-{% endblock %}
+{% else %}
+    <p>{% translate 'There are no subscriptions registered' %}</p>
+{% endif %}

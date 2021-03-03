@@ -1,0 +1,27 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<div class="container">
+  <footer class="card-subtitle mb-2 text-muted d-flex justify-content-end" id='event_author'>
+    {{event.author.username}}
+  </footer>
+  <hr/>
+  <div class="container d-flex flex-row justify-content-sm-between">
+    {% if event.state == 'DF' %}
+    <footer class="text-muted">
+      <div id='event_state'>{% translate 'Draft' %}</div>
+    </footer>
+    {% elif event.state == 'PU' %}
+      <footer class="text-muted px-1">
+        <div id='event_state'>{% translate 'Public' %}</div>
+      </footer>
+    {% else %}
+    <footer class="text-muted">
+      <div id='event_state'>{% translate 'Private' %}</div>
+    </footer>
+    {% endif %}
+    <footer class="text-muted">
+      <div id='event_date'><p>{{event.date|date:"SHORT_DATE_FORMAT"}}</p></div>
+    </footer>
+  </div>
+</div>
