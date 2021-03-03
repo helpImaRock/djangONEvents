@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 100%;">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,12 +13,14 @@
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   {% block title %}<title>ONEvents</title>{% endblock %}
 </head>
-<body>
+<body style="min-height: 100%;position:relative; height: auto;border: 1px solid green;" >
   {% include "dashboard.html" %}
-    <div class="container">
+    <div class="container" style="height: inherit;border: 1px solid red;">
       {% block content %}
       {% endblock %}
     </div>
-    {% include "components/footer.html" %}
+    <div class="container" style="bottom: 0px;">
+      {% include "components/footer.html" %}
+  </div>
 </body>
 </html>

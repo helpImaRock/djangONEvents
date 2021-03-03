@@ -6,18 +6,18 @@
     {{event.author.username}}
   </footer>
   <hr/>
-  <div class="container d-flex flex-row justify-content-sm-between">
+  <div class="container d-flex flex-row justify-content-md-around" >
     {% if event.state == 'DF' %}
-    <footer class="text-muted">
-      <div id='event_state'>{% translate 'Draft' %}</div>
+    <footer class="text-muted" >
+      <div id='event_state' class="alert-warning p-1 mx-5" style="border-radius: 4px;">{% translate 'Draft' %}</div>
     </footer>
     {% elif event.state == 'PU' %}
-      <footer class="text-muted px-1">
-        <div id='event_state'>{% translate 'Public' %}</div>
+      <footer class="text-muted" >
+        <div id='event_state' class="alert-info p-1 mx-5" style="border-radius: 4px;">{% translate 'Public' %}</div>
       </footer>
     {% else %}
     <footer class="text-muted">
-      <div id='event_state'>{% translate 'Private' %}</div>
+      <div id='event_state' class="alert-success p-1 mx-5" style="border-radius: 4px;">{% translate 'Private' %}</div>
     </footer>
     {% endif %}
     <footer class="text-muted">

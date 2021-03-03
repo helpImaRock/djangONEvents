@@ -3,7 +3,7 @@
 {% block content %}
 {% if event %}
   
-<div class="d-flex flex-column align-items-center py-3 mt-3">
+<div class="d-flex flex-column align-items-center py-3 mt-3" style="height: inherit">
     {% if event.author == request.user %}
       {% if event.state == 'DF' %}  
         <a href={% url 'event-update' event.id %}>{% translate 'update event' %}</a>
